@@ -39,5 +39,11 @@
   "confirmDelete": "آیا مطمئن هستید که می‌خواهید این محصول حذف شود؟",
   "deleteError": "خطا در حذف محصول",
   "productDeleted": "محصول با موفقیت حذف شد",
-  "deleteFailed": "حذف محصول ناموفق بود"
+  "deleteFailed": "حذف محصول ناموفق بود",
+  "marketTitle": "مارکت یاندکس پیشرفته",
+  "categories": "دسته‌بندی‌ها",
+  "electronics": "الکترونیک",
+  "clothing": "پوشاک",
+  "food": "خوراکی",
+  "all": "همه"
 }
