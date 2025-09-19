@@ -20,7 +20,7 @@ export default function AdminPanel() {
     fetch('http://localhost:4000/products')
       .then((res) => res.json())
       .then((data) => setProducts(data))
-      .catch((err) => console.error('❌ خطا در دریافت محصولات:', err));
+      .catch((err) => console.error(t('fetchError'), err));
   };
 
   const handleImageUpload = (e) => {
@@ -57,11 +57,13 @@ export default function AdminPanel() {
       body: JSON.stringify(newProduct),
     })
       .then((res) => {
-        if (!res.ok) throw new Error('خطا در ذخیره‌سازی');
+        if (!res.ok) throw new Error(t('saveError'));
         return res.json();
       })
       .then(() => {
-        alert(`✅ محصول "${name}" با موفقیت ${editId ? 'ویرایش' : 'ثبت'} شد`);
+        alert(
+          `${t('product')} "${name}" ${editId ? t('updated') : t('added')} ${t('successfully')}`
+        );
         setName('');
         setPrice('');
         setImage('');
@@ -70,8 +72,8 @@ export default function AdminPanel() {
         fetchProducts();
       })
       .catch((err) => {
-        console.error('❌ خطا:', err);
-        alert('❌ عملیات ناموفق بود');
+        console.error(t('saveError'), err);
+        alert(t('operationFailed'));
       });
   };
 
@@ -85,19 +87,19 @@ export default function AdminPanel() {
   };
 
   const handleDelete = (id) => {
-    if (!window.confirm('آیا مطمئن هستید که می‌خواهید این محصول حذف شود؟')) return;
+    if (!window.confirm(t('confirmDelete'))) return;
 
     fetch(`http://localhost:4000/products/${id}`, {
       method: 'DELETE',
     })
       .then((res) => {
-        if (!res.ok) throw new Error('خطا در حذف محصول');
-        alert('✅ محصول با موفقیت حذف شد');
+        if (!res.ok) throw new Error(t('deleteError'));
+        alert(t('productDeleted'));
         fetchProducts();
       })
       .catch((err) => {
-        console.error('❌ خطا:', err);
-        alert('❌ حذف محصول ناموفق بود');
+        console.error(t('deleteError'), err);
+        alert(t('deleteFailed'));
       });
   };
 
@@ -113,7 +115,7 @@ export default function AdminPanel() {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="نام محصول"
+          placeholder={t('productName')}
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
@@ -121,14 +123,14 @@ export default function AdminPanel() {
         />
         <input
           type="number"
-          placeholder="قیمت (تومان)"
+          placeholder={t('price')}
           value={price}
           onChange={(e) => setPrice(e.target.value)}
           required
           style={{ width: '100%', padding: '0.5rem', marginBottom: '1rem' }}
         />
         <label style={{ fontSize: '0.9rem', color: '#555' }}>
-          📷 لطفاً عکس محصول را آپلود کنید (سایز پیشنهادی: 200×150 پیکسل)
+          📷 {t('uploadImageHint')}
         </label>
         <input
           type="file"
@@ -139,7 +141,7 @@ export default function AdminPanel() {
         {preview && (
           <img
             src={preview}
-            alt="پیش‌نمایش عکس"
+            alt={t('imagePreview')}
             style={{
               width: '200px',
               height: 'auto',
@@ -160,17 +162,17 @@ export default function AdminPanel() {
             cursor: 'pointer',
           }}
         >
-          {editId ? '💾 ذخیره تغییرات' : '➕ ثبت محصول'}
+          {editId ? t('saveChanges') : t('addProduct')}
         </button>
       </form>
 
       <hr style={{ margin: '2rem 0' }} />
 
-      <h3>📦 لیست محصولات</h3>
+      <h3>📦 {t('productList')}</h3>
 
       <input
         type="text"
-        placeholder="🔍 جستجو بر اساس نام محصول"
+        placeholder={t('searchProduct')}
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         style={{ width: '100%', padding: '0.5rem', marginBottom: '1rem' }}
@@ -181,8 +183,8 @@ export default function AdminPanel() {
         onChange={(e) => setSortOrder(e.target.value)}
         style={{ width: '100%', padding: '0.5rem', marginBottom: '2rem' }}
       >
-        <option value="asc">🔼 مرتب‌سازی قیمت (صعودی)</option>
-        <option value="desc">🔽 مرتب‌سازی قیمت (نزولی)</option>
+        <option value="asc">{t('sortAsc')}</option>
+        <option value="desc">{t('sortDesc')}</option>
       </select>
 
       {filteredProducts.map((product) => (
@@ -209,7 +211,9 @@ export default function AdminPanel() {
             />
             <div>
               <h4 style={{ margin: 0 }}>{product.name}</h4>
-              <p style={{ margin: '4px 0' }}>💰 قیمت: {product.price.toLocaleString()} تومان</p>
+              <p style={{ margin: '4px 0' }}>
+                💰 {t('price')}: {product.price.toLocaleString()}
+              </p>
             </div>
           </div>
 
@@ -225,7 +229,7 @@ export default function AdminPanel() {
                 cursor: 'pointer',
               }}
             >
-              ✏️ ویرایش
+              ✏️ {t('edit')}
             </button>
             <button
               onClick={() => handleDelete(product.id)}
@@ -238,7 +242,7 @@ export default function AdminPanel() {
                 cursor: 'pointer',
               }}
             >
-              ❌ حذف
+              ❌ {t('delete')}
             </button>
           </div>
         </div>
