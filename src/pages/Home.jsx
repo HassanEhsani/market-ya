@@ -36,13 +36,12 @@ export default function Home() {
   const categories = ['electronics', 'clothing', 'food'];
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
-      <header style={{ marginBottom: '2rem' }}>
+    <div className="home-container">
+      <header className="home-header">
         <h1>{t('marketTitle')}</h1>
         <select
           value={i18n.language}
           onChange={(e) => i18n.changeLanguage(e.target.value)}
-          style={{ padding: '0.5rem', marginTop: '1rem' }}
         >
           <option value="fa">فارسی</option>
           <option value="en">English</option>
@@ -56,37 +55,22 @@ export default function Home() {
         placeholder={t('searchProduct')}
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        style={{ width: '100%', padding: '0.5rem', marginBottom: '2rem' }}
+        className="search-input"
       />
 
       <h2>{t('categories')}</h2>
-      <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
+      <div className="category-buttons">
         <button
           onClick={() => setSelectedCategory('')}
-          style={{
-            padding: '0.5rem 1rem',
-            backgroundColor: selectedCategory === '' ? '#0077cc' : '#eee',
-            color: selectedCategory === '' ? 'white' : 'black',
-            border: '1px solid #ccc',
-            borderRadius: '6px',
-            cursor: 'pointer',
-          }}
+          className={selectedCategory === '' ? 'active-category' : ''}
         >
           {t('all')}
         </button>
-
         {categories.map((cat) => (
           <button
             key={cat}
             onClick={() => setSelectedCategory(cat)}
-            style={{
-              padding: '0.5rem 1rem',
-              backgroundColor: selectedCategory === cat ? '#0077cc' : '#eee',
-              color: selectedCategory === cat ? 'white' : 'black',
-              border: '1px solid #ccc',
-              borderRadius: '6px',
-              cursor: 'pointer',
-            }}
+            className={selectedCategory === cat ? 'active-category' : ''}
           >
             {t(cat)}
           </button>
@@ -98,38 +82,15 @@ export default function Home() {
         <p>{t('noProductsFound')}</p>
       ) : (
         filteredProducts.map((product) => (
-          <div
-            key={product.id}
-            style={{
-              border: '1px solid #ccc',
-              padding: '1rem',
-              borderRadius: '6px',
-              marginBottom: '1rem',
-              backgroundColor: '#f9f9f9',
-            }}
-          >
+          <div className="product-card" key={product.id}>
             <h3>{product.name}</h3>
-            <p>
-              💰 {t('price')}: {product.price.toLocaleString()}
-            </p>
+            <p>💰 {t('price')}: {product.price.toLocaleString()}</p>
             {product.image && (
-              <img
-                src={product.image}
-                alt={product.name}
-                style={{ width: '150px', borderRadius: '6px' }}
-              />
+              <img src={product.image} alt={product.name} />
             )}
             <button
+              className="add-to-cart-btn"
               onClick={() => handleAddToCart(product)}
-              style={{
-                marginTop: '1rem',
-                padding: '0.5rem 1rem',
-                backgroundColor: '#28a745',
-                color: 'white',
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer',
-              }}
             >
               {t('addToCart')}
             </button>
