@@ -1,0 +1,22 @@
+{
+  "title": "یاندکس مارکت",
+  "login": "ورود",
+  "logout": "خروج",
+  "products": "محصولات",
+  "dashboard": "داشبورد",
+  "addToCart": "افزودن به سبد",
+  "price": "قیمت",
+  "cart": "سبد خرید",
+  "cartEmpty": "سبد خرید خالی است",
+  "remove": "حذف",
+  "dashboardEmpty": "داشبورد خالی است",
+  "register": "ثبت‌نام",
+  "username": "نام کاربری",
+  "password": "رمز عبور",
+  "goToLogin": "رفتن به ورود",
+  "goToRegister": "رفتن به ثبت‌نام",
+  "addToDashboard": "ذخیره در داشبورد",
+  "add": "افزودن",
+  "edit": "ویرایش",
+  "delete": "حذف"
+}

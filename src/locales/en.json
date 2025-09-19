@@ -1,0 +1,23 @@
+{
+  "title": "Yandex Market",
+  "login": "Login",
+  "logout": "Logout",
+  "products": "Products",
+  "dashboard": "Dashboard",
+  "addToCart": "Add to Cart",
+  "price": "Price",
+   "cart": "Cart",
+  "cartEmpty": "Your cart is empty",
+  "remove": "Remove",
+  "dashboardEmpty": "Dashboard is empty",
+  "register": "Register",
+  "username": "Username",
+  "password": "Password",
+  "goToLogin": "Go to Login",
+  "goToRegister": "Go to Register",
+  "addToDashboard": "Save to Dashboard",
+  "add": "Add",
+  "edit": "Edit",
+  "delete": "Delete"
+
+}

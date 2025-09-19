@@ -1,0 +1,17 @@
+{
+  "products": [
+    {
+      "id": "3265",
+      "name": "car",
+      "price": 100,
+      "image": ""
+    }
+  ],
+  "users": [
+    {
+      "id": "0b82",
+      "username": "abc",
+      "password": "123"
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+/* کل صفحه */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f9f9f9;
+}
+
+
+/* جهت متن */
+.align-left {
+  text-align: left;
+}
+
+.align-right {
+  text-align: right;
+}
+
+/* هدر تمام عرض */
+.site-header {
+  background-color: #0077cc;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  width: 100%;
+}
+
+/* دکمه‌های زبان */
+.lang-buttons {
+  margin-top: 0.5rem;
+}
+
+.lang-buttons button {
+  margin: 0 0.25rem;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #0077cc;
+  cursor: pointer;
+}
+
+.lang-buttons button:hover {
+  background-color: #e0e0e0;
+}
+
+/* محتوای اصلی وسط‌چین */
+.site-main {
+  flex: 1;
+  width: 100%;
+  padding: 2rem 1rem;
+}
+
+.main-content {
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* فوتر تمام عرض */
+.site-footer {
+  background-color: #f1f1f1;
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: #555;
+  width: 100%;
+}
+.cart-item {
+  background-color: #ffffff;
+  color: #333;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+
+
