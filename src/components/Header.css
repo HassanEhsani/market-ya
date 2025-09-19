@@ -1,0 +1,73 @@
+.ym-header {
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+  padding: 1rem 2rem;
+}
+
+.ym-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.ym-logo img {
+  height: 40px;
+}
+
+.ym-search-container {
+  flex: 1;
+  text-align: center;
+}
+
+.ym-search-input {
+  width: 60%;
+  max-width: 400px;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.ym-user-menu {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.ym-user-menu a,
+.ym-user-menu button {
+  text-decoration: none;
+  color: #0077cc;
+  font-weight: bold;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.ym-banner img {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  margin-top: 1rem;
+  border-radius: 8px;
+}
+
+.ym-lang-buttons {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.ym-lang-buttons button {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #ccc;
+  background-color: #eee;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.ym-lang-buttons .active {
+  background-color: #0077cc;
+  color: white;
+}

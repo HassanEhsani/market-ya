@@ -1,10 +1,11 @@
-import { BrowserRouter, Routes, Route, Navigate, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import LoginRegister from './pages/LoginRegister';
 import ProductList from './pages/ProductList';
 import Dashboard from './pages/Dashboard';
 import Cart from './pages/Cart';
 import AdminPanel from './pages/AdminPanel';
-import Home from './pages/Home'; // اضافه شد
+import Home from './pages/Home';
+import Header from './components/Header'; // هدر جداگانه
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import './App.css';
@@ -48,26 +49,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className={`layout ${textAlignClass}`}>
-        <header className="site-header">
-          <h1>{t('title')}</h1>
-
-          {loggedIn && (
-            <nav>
-              <Link to="/products">{t('products')}</Link> |{' '}
-              <Link to="/dashboard">{t('dashboard')}</Link> |{' '}
-              <Link to="/cart">{t('cart')}</Link> |{' '}
-              <Link to="/home">{t('home')}</Link> |{' '}
-              <button onClick={handleLogout}>{t('logout')}</button>
-            </nav>
-          )}
-
-          <div className="lang-buttons">
-            <button onClick={() => changeLanguage('ru')}>RU</button>
-            <button onClick={() => changeLanguage('en')}>EN</button>
-            <button onClick={() => changeLanguage('fa')}>FA</button>
-            <button onClick={() => changeLanguage('tg')}>TG</button>
-          </div>
-        </header>
+        <Header /> {/* هدر جدید جایگزین شده */}
 
         <main className="site-main">
           <div className="main-content">
@@ -78,7 +60,7 @@ function App() {
               <Route path="/dashboard" element={loggedIn ? <Dashboard /> : <Navigate to="/login" />} />
               <Route path="/cart" element={loggedIn ? <Cart /> : <Navigate to="/login" />} />
               <Route path="/admin" element={<AdminPanel />} />
-              <Route path="/home" element={<Home />} /> {/* مسیر صفحه اصلی */}
+              <Route path="/home" element={<Home />} />
             </Routes>
           </div>
         </main>

@@ -6,14 +6,14 @@ export default function ProductList({ onAddToCart }) {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3001/products')
+    fetch('http://localhost:4000/products')
       .then((res) => res.json())
       .then((data) => setProducts(data))
       .catch((err) => console.error('خطا در دریافت محصولات:', err));
   }, []);
 
   const handleSaveToDashboard = (product) => {
-    fetch('http://localhost:3001/dashboard', {
+    fetch('http://localhost:4000/dashboard', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

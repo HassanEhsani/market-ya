@@ -177,6 +177,19 @@ html, body, #root {
   margin-left: auto;
   margin-right: auto;
 }
+.site-header {
+  background-color: #f8f8f8;
+  padding: 2rem;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.site-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
 
 
 
