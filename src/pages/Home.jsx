@@ -14,6 +14,14 @@ export default function Home() {
       .catch((err) => console.error(t('fetchError'), err));
   }, []);
 
+  const handleAddToCart = (product) => {
+    const savedCart = localStorage.getItem('cart');
+    const cart = savedCart ? JSON.parse(savedCart) : [];
+    const updatedCart = [...cart, product];
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+    alert(`✅ "${product.name}" ${t('addToCart')}`);
+  };
+
   const filteredProducts = products
     .filter((product) => {
       const nameMatch = product.name
@@ -111,6 +119,20 @@ export default function Home() {
                 style={{ width: '150px', borderRadius: '6px' }}
               />
             )}
+            <button
+              onClick={() => handleAddToCart(product)}
+              style={{
+                marginTop: '1rem',
+                padding: '0.5rem 1rem',
+                backgroundColor: '#28a745',
+                color: 'white',
+                border: 'none',
+                borderRadius: '6px',
+                cursor: 'pointer',
+              }}
+            >
+              {t('addToCart')}
+            </button>
           </div>
         ))
       )}
