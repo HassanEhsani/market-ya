@@ -4,6 +4,7 @@ import ProductList from './pages/ProductList';
 import Dashboard from './pages/Dashboard';
 import Cart from './pages/Cart';
 import AdminPanel from './pages/AdminPanel';
+import Home from './pages/Home'; // اضافه شد
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import './App.css';
@@ -55,6 +56,7 @@ function App() {
               <Link to="/products">{t('products')}</Link> |{' '}
               <Link to="/dashboard">{t('dashboard')}</Link> |{' '}
               <Link to="/cart">{t('cart')}</Link> |{' '}
+              <Link to="/home">{t('home')}</Link> |{' '}
               <button onClick={handleLogout}>{t('logout')}</button>
             </nav>
           )}
@@ -76,6 +78,7 @@ function App() {
               <Route path="/dashboard" element={loggedIn ? <Dashboard /> : <Navigate to="/login" />} />
               <Route path="/cart" element={loggedIn ? <Cart /> : <Navigate to="/login" />} />
               <Route path="/admin" element={<AdminPanel />} />
+              <Route path="/home" element={<Home />} /> {/* مسیر صفحه اصلی */}
             </Routes>
           </div>
         </main>
