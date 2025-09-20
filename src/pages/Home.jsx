@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Slider from 'react-slick';
-import './Home.css'; // اگه نداری بسازش
+import './Home.css';
 
 export default function Home() {
   const { t, i18n } = useTranslation();
   const [products, setProducts] = useState([]);
+  const [sliderItems, setSliderItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
 
@@ -15,6 +16,16 @@ export default function Home() {
       .then((data) => setProducts(data))
       .catch((err) => console.error(t('fetchError'), err));
   }, []);
+
+  useEffect(() => {
+    fetch('http://localhost:4000/slider')
+      .then((res) => res.json())
+      .then((data) => setSliderItems(data))
+      .catch((err) => console.error('خطا در دریافت اسلایدها', err));
+  }, []);
+
+  const now = new Date();
+  const activeSlides = sliderItems.filter(slide => new Date(slide.end) > now);
 
   const handleAddToCart = (product) => {
     const savedCart = localStorage.getItem('cart');
@@ -32,93 +43,82 @@ export default function Home() {
 
   const categories = ['electronics', 'clothing', 'food'];
 
-  const sliderSettings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    pauseOnHover: true,
-    rtl: true
-  };
+ const sliderSettings = {
+  dots: false,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  centerMode: true,
+  centerPadding: '25%', // فضای کناری برای پیش‌نمایش
+  autoplay: true,
+  autoplaySpeed: 4000,
+  pauseOnHover: false,
+  rtl: i18n.language === 'fa' || i18n.language === 'ar'
+};
+
+
+
+
 
   return (
-    <div className="home-container">
-      <header className="home-header">
-        <h1>{t('marketTitle')}</h1>
-        {/* <select
-          value={i18n.language}
-          onChange={(e) => i18n.changeLanguage(e.target.value)}
-        >
-          <option value="fa">فارسی</option>
-          <option value="en">English</option>
-          <option value="ru">Русский</option>
-          <option value="tg">Тоҷикӣ</option>
-        </select> */}
-      </header>
-
-      {/* <input
-        type="text"
-        placeholder={t('searchProduct')}
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="search-input"
-      /> */}
-
-      {/* اسلایدر محصولات پایین سرچ‌بار */}
-      <div className="product-slider">
+    <>
+      {/* اسلایدر تبلیغاتی تمام‌عرض */}
+      <div className="slider-wrapper">
         <Slider {...sliderSettings}>
-          {products.map((product) => (
-            <div key={product.id} className="slider-item">
-              <img src={product.image} alt={product.name} />
-              <h4>{product.name}</h4>
-              <p>{product.price.toLocaleString()} ₽</p>
+          {activeSlides.map((slide) => (
+            <div key={slide.id} className="slider-item">
+              <img src={slide.image} alt="اسلاید تبلیغاتی" />
             </div>
           ))}
         </Slider>
       </div>
 
-      <h2>{t('categories')}</h2>
-      <div className="category-buttons">
-        <button
-          onClick={() => setSelectedCategory('')}
-          className={selectedCategory === '' ? 'active-category' : ''}
-        >
-          {t('all')}
-        </button>
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setSelectedCategory(cat)}
-            className={selectedCategory === cat ? 'active-category' : ''}
-          >
-            {t(cat)}
-          </button>
-        ))}
-      </div>
+      {/* محتوای اصلی داخل کانتینر محدود */}
+      <div className="home-container">
+        <header className="home-header">
+          <h1>{t('marketTitle')}</h1>
+        </header>
 
-      <h2>{t('productList')}</h2>
-      {filteredProducts.length === 0 ? (
-        <p>{t('noProductsFound')}</p>
-      ) : (
-        filteredProducts.map((product) => (
-          <div className="product-card" key={product.id}>
-            <h3>{product.name}</h3>
-            <p>💰 {t('price')}: {product.price.toLocaleString()}</p>
-            {product.image && (
-              <img src={product.image} alt={product.name} />
-            )}
+        <h2>{t('categories')}</h2>
+        <div className="category-buttons">
+          <button
+            onClick={() => setSelectedCategory('')}
+            className={selectedCategory === '' ? 'active-category' : ''}
+          >
+            {t('all')}
+          </button>
+          {categories.map((cat) => (
             <button
-              className="add-to-cart-btn"
-              onClick={() => handleAddToCart(product)}
+              key={cat}
+              onClick={() => setSelectedCategory(cat)}
+              className={selectedCategory === cat ? 'active-category' : ''}
             >
-              {t('addToCart')}
+              {t(cat)}
             </button>
-          </div>
-        ))
-      )}
-    </div>
+          ))}
+        </div>
+
+        <h2>{t('productList')}</h2>
+        {filteredProducts.length === 0 ? (
+          <p>{t('noProductsFound')}</p>
+        ) : (
+          filteredProducts.map((product) => (
+            <div className="product-card" key={product.id}>
+              <h3>{product.name}</h3>
+              <p>💰 {t('price')}: {product.price.toLocaleString()}</p>
+              {product.image && (
+                <img src={product.image} alt={product.name} />
+              )}
+              <button
+                className="add-to-cart-btn"
+                onClick={() => handleAddToCart(product)}
+              >
+                {t('addToCart')}
+              </button>
+            </div>
+          ))
+        )}
+      </div>
+    </>
   );
 }

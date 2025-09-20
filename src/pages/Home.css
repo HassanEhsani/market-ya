@@ -1,56 +1,73 @@
+/* اسلایدر تمام‌عرض با پیش‌نمایش کناری */
+.slider-wrapper {
+  width: 100vw;
+  margin: 0;
+  padding: 2rem 0;
+  overflow: hidden;
+}
+
+.slider-item {
+  padding: 0 20px; /* افزایش فاصله بین اسلایدها */
+  transition: transform 0.3s ease;
+}
+
+
+.slider-item img {
+  width: 100%;
+  height: auto;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* کانتینر محدود برای محتوا */
 .home-container {
+  max-width: 800px;
+  margin: 0 auto;
   padding: 2rem;
 }
 
 .home-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   margin-bottom: 2rem;
-}
-
-.search-input {
-  width: 100%;
-  max-width: 400px;
-  padding: 0.5rem;
-  margin: 1rem 0;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  text-align: center;
 }
 
 .category-buttons {
   display: flex;
   gap: 1rem;
   margin-bottom: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .category-buttons button {
   padding: 0.5rem 1rem;
-  border: 1px solid #ccc;
   background-color: #eee;
+  color: black;
+  border: 1px solid #ccc;
   border-radius: 6px;
   cursor: pointer;
 }
 
-.active-category {
+.category-buttons .active-category {
   background-color: #0077cc;
   color: white;
 }
 
 .product-card {
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
   padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 8px;
-  background-color: #fff;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  background-color: #f9f9f9;
+  text-align: center;
 }
 
 .product-card img {
-  width: 100%;
-  max-height: 150px;
-  object-fit: cover;
+  width: 150px;
   border-radius: 6px;
-  margin-top: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .add-to-cart-btn {
@@ -61,24 +78,15 @@
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.product-slider {
-  margin: 2rem auto;
-  padding: 0 2rem;
+.slider-item.slick-center img {
+  transform: scale(1.1);
+  transition: transform 0.5s ease;
+  z-index: 2;
 }
 
-.slider-item {
-  text-align: center;
-  padding: 1rem;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
 
-.slider-item img {
-  width: 100%;
-  max-height: 150px;
-  object-fit: cover;
-  border-radius: 6px;
-}

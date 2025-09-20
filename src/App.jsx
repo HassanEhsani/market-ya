@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import LoginRegister from './pages/LoginRegister';
 import ProductList from './pages/ProductList';
 import Dashboard from './pages/Dashboard';
@@ -14,8 +14,6 @@ import 'slick-carousel/slick/slick-theme.css';
 import ManageSlider from './pages/ManageSlider';
 import ManageProducts from './pages/ManageProducts';
 import ManageCategories from './pages/ManageCategories';
-
-
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -54,10 +52,6 @@ function App() {
     setLoggedIn(false);
   };
 
-  // const changeLanguage = (lng) => {
-  //   i18n.changeLanguage(lng);
-  // };
-
   const handleAddToCart = (product) => {
     const updated = [...cart, product];
     setCart(updated);
@@ -65,22 +59,26 @@ function App() {
     alert(`✅ "${product.name}" ${t('addToCart')}`);
   };
 
-  return (
-    <BrowserRouter>
-      <div className={`layout ${textAlignClass}`}>
-        <Header
-          loggedIn={loggedIn}
-          handleLogout={handleLogout}
-          // changeLanguage={changeLanguage}
-          // currentLanguage={i18n.language}
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          categories={categories}
-          showDropdown={showDropdown}
-          setShowDropdown={setShowDropdown}
-        />
+  const location = useLocation();
 
-        <main className="site-main">
+  return (
+    <div className={`layout ${textAlignClass}`}>
+      <Header
+        loggedIn={loggedIn}
+        handleLogout={handleLogout}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        categories={categories}
+        showDropdown={showDropdown}
+        setShowDropdown={setShowDropdown}
+      />
+
+      <main className="site-main">
+        {location.pathname === '/home' ? (
+          <Routes>
+            <Route path="/home" element={<Home />} />
+          </Routes>
+        ) : (
           <div className="main-content">
             <Routes>
               <Route path="/" element={<Navigate to={loggedIn ? "/products" : "/login"} />} />
@@ -89,21 +87,25 @@ function App() {
               <Route path="/dashboard" element={loggedIn ? <Dashboard /> : <Navigate to="/login" />} />
               <Route path="/cart" element={loggedIn ? <Cart /> : <Navigate to="/login" />} />
               <Route path="/admin" element={<AdminPanel />} />
-              <Route path="/home" element={<Home />} />
               <Route path="/admin/slider" element={<ManageSlider />} />
               <Route path="/admin/products" element={<ManageProducts />} />
               <Route path="/admin/categories" element={<ManageCategories />} />
-
             </Routes>
           </div>
-        </main>
+        )}
+      </main>
 
-        <footer className="site-footer">
-          <p>© 2025 Yandex Market Clone</p>
-        </footer>
-      </div>
-    </BrowserRouter>
+      <footer className="site-footer">
+        <p>© 2025 Yandex Market Clone</p>
+      </footer>
+    </div>
   );
 }
 
-export default App;
+export default function WrappedApp() {
+  return (
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  );
+}
