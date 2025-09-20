@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import Slider from 'react-slick';
+import './Home.css'; // اگه نداری بسازش
 
 export default function Home() {
   const { t, i18n } = useTranslation();
@@ -22,24 +24,31 @@ export default function Home() {
     alert(`✅ "${product.name}" ${t('addToCart')}`);
   };
 
-  const filteredProducts = products
-    .filter((product) => {
-      const nameMatch = product.name
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
-      const categoryMatch = selectedCategory
-        ? product.category === selectedCategory
-        : true;
-      return nameMatch && categoryMatch;
-    });
+  const filteredProducts = products.filter((product) => {
+    const nameMatch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const categoryMatch = selectedCategory ? product.category === selectedCategory : true;
+    return nameMatch && categoryMatch;
+  });
 
   const categories = ['electronics', 'clothing', 'food'];
+
+  const sliderSettings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    pauseOnHover: true,
+    rtl: true
+  };
 
   return (
     <div className="home-container">
       <header className="home-header">
         <h1>{t('marketTitle')}</h1>
-        <select
+        {/* <select
           value={i18n.language}
           onChange={(e) => i18n.changeLanguage(e.target.value)}
         >
@@ -47,16 +56,29 @@ export default function Home() {
           <option value="en">English</option>
           <option value="ru">Русский</option>
           <option value="tg">Тоҷикӣ</option>
-        </select>
+        </select> */}
       </header>
 
-      <input
+      {/* <input
         type="text"
         placeholder={t('searchProduct')}
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className="search-input"
-      />
+      /> */}
+
+      {/* اسلایدر محصولات پایین سرچ‌بار */}
+      <div className="product-slider">
+        <Slider {...sliderSettings}>
+          {products.map((product) => (
+            <div key={product.id} className="slider-item">
+              <img src={product.image} alt={product.name} />
+              <h4>{product.name}</h4>
+              <p>{product.price.toLocaleString()} ₽</p>
+            </div>
+          ))}
+        </Slider>
+      </div>
 
       <h2>{t('categories')}</h2>
       <div className="category-buttons">

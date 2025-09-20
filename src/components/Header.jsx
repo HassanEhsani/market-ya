@@ -2,7 +2,17 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import './Header.css';
 
-export default function Header({ loggedIn, handleLogout, changeLanguage, currentLanguage }) {
+export default function Header({
+  loggedIn,
+  handleLogout,
+  changeLanguage,
+  currentLanguage,
+  searchTerm,
+  setSearchTerm,
+  categories,
+  showDropdown,
+  setShowDropdown
+}) {
   const { t } = useTranslation();
 
   return (
@@ -16,9 +26,24 @@ export default function Header({ loggedIn, handleLogout, changeLanguage, current
         </div>
 
         {/* نوار جستجو وسط */}
-        <div className="ym-search-container">
+        <div className="ym-center">
+          <div className="ym-category-dropdown">
+            <button onClick={() => setShowDropdown(!showDropdown)}>
+              📂 {t('categories')}
+            </button>
+            {showDropdown && (
+              <ul className="ym-dropdown-list">
+                {categories.map((cat, index) => (
+                  <li key={index}>{t(cat)}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+
           <input
             type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             placeholder={t('searchProduct')}
             className="ym-search-input"
           />
@@ -45,13 +70,13 @@ export default function Header({ loggedIn, handleLogout, changeLanguage, current
         />
       </div>
 
-      {/* دکمه‌های زبان */}
+      {/* دکمه‌های زبان
       <div className="ym-lang-buttons">
         <button onClick={() => changeLanguage('ru')} className={currentLanguage === 'ru' ? 'active' : ''}>RU</button>
         <button onClick={() => changeLanguage('en')} className={currentLanguage === 'en' ? 'active' : ''}>EN</button>
         <button onClick={() => changeLanguage('fa')} className={currentLanguage === 'fa' ? 'active' : ''}>FA</button>
         <button onClick={() => changeLanguage('tg')} className={currentLanguage === 'tg' ? 'active' : ''}>TG</button>
-      </div>
+      </div> */}
     </header>
   );
 }

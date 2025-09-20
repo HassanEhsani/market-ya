@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 export default function AdminPanel() {
   const { t } = useTranslation();
@@ -110,8 +111,17 @@ export default function AdminPanel() {
     );
 
   return (
-    <div style={{ maxWidth: '700px', margin: '0 auto', padding: '2rem' }}>
-      <h2>🛠️ {t('adminPanel')}</h2>
+    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem' }}>
+      <h2>🎛 {t('adminPanel')}</h2>
+
+      {/* لینک‌های مدیریت */}
+      <ul style={{ listStyle: 'none', padding: 0, marginBottom: '2rem' }}>
+        <li><Link to="/admin/products">🛠 مدیریت محصولات</Link></li>
+        <li><Link to="/admin/slider">🎞 مدیریت اسلایدر</Link></li>
+        <li><Link to="/admin/categories">📂 مدیریت دسته‌بندی‌ها</Link></li>
+      </ul>
+
+      {/* فرم افزودن یا ویرایش محصول */}
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -168,6 +178,7 @@ export default function AdminPanel() {
 
       <hr style={{ margin: '2rem 0' }} />
 
+      {/* لیست محصولات */}
       <h3>📦 {t('productList')}</h3>
 
       <input
@@ -232,21 +243,12 @@ export default function AdminPanel() {
               ✏️ {t('edit')}
             </button>
             <button
-              onClick={() => handleDelete(product.id)}
-              style={{
-                padding: '0.4rem 0.8rem',
-                backgroundColor: '#ff4d4d',
-                color: 'white',
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer',
-              }}
-            >
-              ❌ {t('delete')}
-            </button>
+              onClick={() => handleDelete(product.id)}              >
+                ❌ {t('delete')}
+              </button>
+            </div>
           </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
   );
 }

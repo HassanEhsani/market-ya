@@ -15,17 +15,52 @@
   height: 40px;
 }
 
-.ym-search-container {
-  flex: 1;
-  text-align: center;
+.ym-center {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .ym-search-input {
-  width: 60%;
-  max-width: 400px;
+  width: 300px;
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 6px;
+}
+
+.ym-category-dropdown {
+  position: relative;
+}
+
+.ym-category-dropdown button {
+  padding: 0.4rem 0.8rem;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.ym-dropdown-list {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  list-style: none;
+  padding: 0.5rem;
+  width: 200px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  z-index: 10;
+}
+
+.ym-dropdown-list li {
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.ym-dropdown-list li:hover {
+  background-color: #f0f0f0;
 }
 
 .ym-user-menu {
@@ -70,4 +105,28 @@
 .ym-lang-buttons .active {
   background-color: #0077cc;
   color: white;
+}
+.ym-dropdown-list {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  background-color: #f9f9f9; /* رنگ پس‌زمینه روشن‌تر و قابل‌تشخیص */
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  list-style: none;
+  padding: 0.5rem;
+  width: 220px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+.ym-dropdown-list li {
+  padding: 0.5rem;
+  cursor: pointer;
+  color: #333; /* رنگ نوشته تیره‌تر برای خوانایی بهتر */
+  font-weight: 500;
+}
+
+.ym-dropdown-list li:hover {
+  background-color: #e6f0ff; /* رنگ آبی ملایم هنگام هاور */
 }
