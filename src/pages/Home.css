@@ -5,8 +5,6 @@
   overflow: hidden;
 }
 
-
-/* اسلایدهای معمولی */
 .slider-item {
   padding: 0 10px;
   transition: transform 0.4s ease, opacity 0.4s ease;
@@ -15,22 +13,13 @@
   cursor: pointer;
 }
 
-
-/* اسلاید وسطی همیشه بزرگ‌تر */
-.slider-item.slick-center {
+.slider-item.slick-center,
+.slider-item:hover {
   transform: scale(1.1);
   opacity: 1;
   z-index: 3;
 }
 
-/* افکت هاور روی هر اسلاید */
-.slider-item:hover {
-  transform: scale(1.1);
-  opacity: 1;
-  z-index: 4;
-}
-
-/* عکس داخل اسلاید */
 .slider-item img {
   width: 100%;
   height: auto;
@@ -39,9 +28,10 @@
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
+
 /* کانتینر محدود برای محتوا */
 .home-container {
-  max-width: 800px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 2rem;
 }
@@ -51,6 +41,7 @@
   text-align: center;
 }
 
+/* دسته‌بندی‌ها */
 .category-buttons {
   display: flex;
   gap: 1rem;
@@ -73,50 +64,51 @@
   color: white;
 }
 
+/* شبکه محصولات در صفحه Home */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(220px, 1fr));
+  gap: 2rem;
+  justify-content: center;
+  padding: 2rem 3rem;
+}
+
+/* کارت محصول */
 .product-card {
-  border: 1px solid #ccc;
-  padding: 1rem;
-  border-radius: 6px;
-  margin-bottom: 1.5rem;
-  background-color: #f9f9f9;
-  text-align: center;
-}
-
-.product-card img {
-  width: 150px;
-  border-radius: 6px;
-  margin-bottom: 1rem;
-}
-
-.add-to-cart-btn {
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  background-color: #0077cc;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.product-actions {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-}
-
-
-.product-card {
-  position: relative;
-  padding: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin-bottom: 1rem;
   background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 1.2rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease;
+  position: relative;
 }
 
+.product-card:hover {
+  transform: translateY(-6px);
+}
+
+.product-card h3 {
+  margin-bottom: 0.6rem;
+  font-size: 1.1rem;
+}
+
+.product-card p {
+  margin: 0.4rem 0;
+  font-size: 0.95rem;
+}
+
+/* تصویر محصول */
+.product-image {
+  width: 100%;
+  height: 160px;
+  object-fit: contain;
+  margin: 1rem 0;
+  border-radius: 8px;
+}
+
+/* دکمه‌های قلب و سبد خرید */
 .product-actions {
   position: absolute;
   top: 8px;
@@ -137,4 +129,18 @@
 .favorite-btn:hover,
 .cart-btn:hover {
   transform: scale(1.2);
+}
+
+/* دکمه افزودن به سبد خرید */
+.add-to-cart-btn {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
