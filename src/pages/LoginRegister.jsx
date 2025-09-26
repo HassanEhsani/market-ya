@@ -1,4 +1,4 @@
-import { useState, useEffect }  from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import './LoginRegister.css';
@@ -40,11 +40,11 @@ export default function LoginRegister({ onLogin }) {
         if (!user) throw new Error('❌ نام کاربری یا رمز عبور اشتباه است');
 
         localStorage.setItem('token', user.id);
-        localStorage.setItem('userId', user.id); // ذخیره userId برای استفاده در سبد خرید
+        localStorage.setItem('userId', user.id);
         onLogin();
         navigate('/products');
 
-        // ✅ دریافت یا ساخت سبد خرید بعد از ورود موفق
+        // دریافت یا ساخت سبد خرید بعد از ورود موفق
         fetch(`http://localhost:4000/carts?userId=${user.id}`)
           .then(res => res.json())
           .then(data => {

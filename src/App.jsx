@@ -14,6 +14,7 @@ import ManageProducts from './pages/ManageProducts';
 import ManageCategories from './pages/ManageCategories';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import Favorites from './pages/Favorites';
 
 
 function App() {
@@ -91,6 +92,7 @@ function App() {
               <Route path="/admin/slider" element={<ManageSlider />} />
               <Route path="/admin/products" element={<ManageProducts />} />
               <Route path="/admin/categories" element={<ManageCategories />} />
+              <Route path="/favorites" element={<Favorites />} />
             </Routes>
           </div>
         )}

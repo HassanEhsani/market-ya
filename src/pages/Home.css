@@ -100,3 +100,41 @@
   margin-left: auto;
   margin-right: auto;
 }
+
+.product-actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+
+.product-card {
+  position: relative;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  background-color: #fff;
+}
+
+.product-actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  gap: 8px;
+}
+
+.favorite-btn,
+.cart-btn {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.favorite-btn:hover,
+.cart-btn:hover {
+  transform: scale(1.2);
+}

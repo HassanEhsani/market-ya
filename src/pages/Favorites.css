@@ -1,0 +1,16 @@
+.favorites-page {
+  padding: 2rem;
+}
+
+.favorite-item {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: #fff;
+}
+
+.favorite-image {
+  max-width: 200px;
+  margin-top: 0.5rem;
+}

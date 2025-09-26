@@ -1,43 +1,76 @@
 .cart-page {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem;
+  width: 100%;
+  padding: 2rem 3rem;
+  box-sizing: border-box;
 }
 
+/* شبکه 5 ستونه با چینش وسط و فاصله منظم */
+.cart-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(250px, 1fr));
+  gap: 2rem;
+  justify-content: center; /* ✅ وسط‌چین شدن شبکه */
+}
+
+/* کارت محصول */
 .cart-item {
-  background-color: #fefefe;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  padding: 1rem;
-  margin-bottom: 1rem;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 1.5rem;
   text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  max-width: 250px;
+}
+
+.cart-item:hover {
+  transform: translateY(-6px);
 }
 
 .cart-item h3 {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 
 .cart-item p {
-  margin: 0.5rem 0;
+  margin: 0.4rem 0;
+  font-size: 0.95rem;
 }
 
+/* تصویر محصول */
 .cart-image {
-  width: 120px;
-  border-radius: 6px;
-  margin: 0.5rem auto;
-  display: block;
+  width: 100%;
+  height: 160px;
+  object-fit: contain;
+  margin: 0.8rem 0;
+  border-radius: 8px;
 }
 
+/* دکمه حذف */
 .cart-item button {
   background-color: #ff4d4d;
   color: white;
   border: none;
   border-radius: 6px;
-  padding: 0.4rem 0.8rem;
+  padding: 0.5rem 1rem;
   cursor: pointer;
-  margin-top: 0.5rem;
+  font-size: 0.9rem;
 }
 
 .cart-item button:hover {
   background-color: #cc0000;
+}
+
+/* مجموع قیمت کل */
+.cart-total {
+  margin-top: 2rem;
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-align: center;
 }
