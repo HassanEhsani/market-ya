@@ -9,11 +9,12 @@ import Header from './components/Header';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import './App.css';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 import ManageSlider from './pages/ManageSlider';
 import ManageProducts from './pages/ManageProducts';
 import ManageCategories from './pages/ManageCategories';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+
 
 function App() {
   const { t, i18n } = useTranslation();

@@ -43,21 +43,18 @@ export default function Home() {
 
   const categories = ['electronics', 'clothing', 'food'];
 
- const sliderSettings = {
-  dots: false,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 1,
-  centerMode: true,
-  centerPadding: '25%', // فضای کناری برای پیش‌نمایش
-  autoplay: true,
-  autoplaySpeed: 4000,
-  pauseOnHover: false,
-  rtl: i18n.language === 'fa' || i18n.language === 'ar'
-};
-
-
-
+  const sliderSettings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    centerMode: true,
+    centerPadding: '20%',
+    autoplay: true,
+    autoplaySpeed: 3000,
+    pauseOnHover: false,
+    rtl: i18n.language === 'fa' || i18n.language === 'ar'
+  };
 
 
   return (
@@ -71,6 +68,7 @@ export default function Home() {
             </div>
           ))}
         </Slider>
+
       </div>
 
       {/* محتوای اصلی داخل کانتینر محدود */}

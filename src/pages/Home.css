@@ -1,17 +1,36 @@
 /* اسلایدر تمام‌عرض با پیش‌نمایش کناری */
 .slider-wrapper {
   width: 100vw;
-  margin: 0;
   padding: 2rem 0;
   overflow: hidden;
 }
 
+
+/* اسلایدهای معمولی */
 .slider-item {
-  padding: 0 20px; /* افزایش فاصله بین اسلایدها */
-  transition: transform 0.3s ease;
+  padding: 0 10px;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  transform: scale(0.85);
+  opacity: 0.6;
+  cursor: pointer;
 }
 
 
+/* اسلاید وسطی همیشه بزرگ‌تر */
+.slider-item.slick-center {
+  transform: scale(1.1);
+  opacity: 1;
+  z-index: 3;
+}
+
+/* افکت هاور روی هر اسلاید */
+.slider-item:hover {
+  transform: scale(1.1);
+  opacity: 1;
+  z-index: 4;
+}
+
+/* عکس داخل اسلاید */
 .slider-item img {
   width: 100%;
   height: auto;
@@ -20,7 +39,6 @@
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
-
 /* کانتینر محدود برای محتوا */
 .home-container {
   max-width: 800px;
@@ -82,11 +100,3 @@
   margin-left: auto;
   margin-right: auto;
 }
-
-.slider-item.slick-center img {
-  transform: scale(1.1);
-  transition: transform 0.5s ease;
-  z-index: 2;
-}
-
-
