@@ -13,15 +13,13 @@ export default function Home() {
   useEffect(() => {
     fetch('http://localhost:4000/products')
       .then(res => res.json())
-      .then(setProducts)
-      .catch(err => console.error(t('fetchError'), err));
+      .then(setProducts);
   }, []);
 
   useEffect(() => {
     fetch('http://localhost:4000/slider')
       .then(res => res.json())
-      .then(setSliderItems)
-      .catch(err => console.error('خطا در دریافت اسلایدها', err));
+      .then(setSliderItems);
   }, []);
 
   const now = new Date();
@@ -55,10 +53,10 @@ export default function Home() {
     const existingItem = items.find(item => item.productId === product.id);
     const updatedItems = existingItem
       ? items.map(item =>
-          item.productId === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        )
+        item.productId === product.id
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      )
       : [...items, { productId: product.id, quantity: 1 }];
 
     await fetch(`http://localhost:4000/carts/${cartId}`, {
@@ -165,19 +163,22 @@ export default function Home() {
         ) : (
           <div className="product-grid">
             {filteredProducts.map(product => (
-              <div className="product-card" key={product.id}>
-                <div className="product-actions">
-                  <button className="favorite-btn" onClick={() => handleAddToFavorites(product)}>❤️</button>
-                  <button className="cart-btn" onClick={() => handleAddToCart(product)}>🛒</button>
+              <div className="product-card">
+                <img src={product.image} alt={product.name} className="product-image" />
+                <div className="product-info">
+                  <h3 className="product-name">{product.name}</h3>
+                  <p className="product-description">{product.description || 'بدون توضیحات'}</p>
+                  <p className="product-price">{product.price.toLocaleString()} ₽</p>
+                  <div className="product-actions">
+                    <button className="favorite-btn">❤️</button>
+                    <button className="cart-btn">🛒</button>
+                  </div>
                 </div>
-                <h3>{product.name}</h3>
-                <p> {t('price')}: {product.price.toLocaleString()} تومان</p>
-                {product.image && (
-                  <img src={product.image} alt={product.name} className="product-image" />
-                )}
               </div>
+
             ))}
           </div>
+
         )}
       </div>
     </>
