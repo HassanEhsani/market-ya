@@ -1,24 +1,25 @@
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import LoginRegister from './pages/LoginRegister';
+import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import Header from './components/Header';
+import Home from './pages/Home';
 import ProductList from './pages/ProductList';
+import LoginRegister from './pages/LoginRegister';
 import Dashboard from './pages/Dashboard';
 import Cart from './pages/Cart';
 import AdminPanel from './pages/AdminPanel';
-import Home from './pages/Home';
-import Header from './components/Header';
-import { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import './App.css';
 import ManageSlider from './pages/ManageSlider';
 import ManageProducts from './pages/ManageProducts';
 import ManageCategories from './pages/ManageCategories';
+import Favorites from './pages/Favorites';
+import './App.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import Favorites from './pages/Favorites';
-
 
 function App() {
   const { t, i18n } = useTranslation();
+  const location = useLocation();
+
   const [loggedIn, setLoggedIn] = useState(false);
   const [textAlignClass, setTextAlignClass] = useState('align-left');
   const [cart, setCart] = useState(() => {
@@ -41,13 +42,25 @@ function App() {
   }, [i18n.language]);
 
   useEffect(() => {
-    fetch('http://localhost:4000/products')
-      .then((res) => res.json())
-      .then((data) => {
-        const uniqueCategories = [...new Set(data.map(p => p.category))];
-        setCategories(uniqueCategories);
-      });
-  }, []);
+  fetch('http://localhost:4000/products')
+    .then(res => res.json())
+    .then(data => {
+      // ۱. ببین rawCategories چی پر می‌شه
+      const rawCategories = [...new Set(data.map(p => p.category))];
+      console.log('🔍 rawCategories from server:', rawCategories);
+
+      // ۲. اگر دسته‌ها توی سرور به انگلیسی هستن، باید customOrder هم انگلیسی باشه
+      //      یا برای تست مستقیم از rawCategories استفاده کن
+      // const sorted = rawCategories;
+      const customOrder = ['electronics', 'clothing', 'food'];
+      const sorted = customOrder.filter(cat => rawCategories.includes(cat));
+      console.log('🔍 sorted categories to show:', sorted);
+
+      setCategories(sorted);
+    })
+    .catch(err => console.error('خطا در دریافت دسته‌بندی‌ها:', err));
+}, []);
+
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -61,7 +74,9 @@ function App() {
     alert(`✅ "${product.name}" ${t('addToCart')}`);
   };
 
-  const location = useLocation();
+  const handleSearch = () => {
+    console.log('🔍 جستجو شد:', searchTerm);
+  };
 
   return (
     <div className={`layout ${textAlignClass}`}>
@@ -73,6 +88,7 @@ function App() {
         categories={categories}
         showDropdown={showDropdown}
         setShowDropdown={setShowDropdown}
+        onSearch={handleSearch}
       />
 
       <main className="site-main">
@@ -85,9 +101,9 @@ function App() {
             <Routes>
               <Route path="/" element={<Navigate to={loggedIn ? "/products" : "/login"} />} />
               <Route path="/login" element={<LoginRegister onLogin={() => setLoggedIn(true)} />} />
-              <Route path="/products" element={loggedIn ? <ProductList onAddToCart={handleAddToCart} /> : <Navigate to="/login" />} />
-              <Route path="/dashboard" element={loggedIn ? <Dashboard /> : <Navigate to="/login" />} />
-              <Route path="/cart" element={loggedIn ? <Cart /> : <Navigate to="/login" />} />
+              <Route path="/products" element={<ProductList onAddToCart={handleAddToCart} />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/cart" element={<Cart />} />
               <Route path="/admin" element={<AdminPanel />} />
               <Route path="/admin/slider" element={<ManageSlider />} />
               <Route path="/admin/products" element={<ManageProducts />} />

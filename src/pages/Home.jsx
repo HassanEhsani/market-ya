@@ -106,7 +106,9 @@ export default function Home() {
     return nameMatch && categoryMatch;
   });
 
-  const categories = ['electronics', 'clothing', 'food'];
+  // const categories = ['electronics', 'clothing', 'food'];
+  const [showCategories, setShowCategories] = useState(false);
+
 
   const sliderSettings = {
     dots: false,
@@ -133,29 +135,57 @@ export default function Home() {
         </Slider>
       </div>
 
+      <div className="top-bar">
+        <div className="search-section">
+          <input
+            type="text"
+            placeholder={t('searchPlaceholder')}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="search-input"
+          />
+          <button className="search-btn" onClick={() => console.log('🔍 جستجو شد:', searchTerm)}>
+            {t('search')}
+          </button>
+        </div>
+
+        <div className="category-dropdown">
+          <button onClick={() => setShowCategories(!showCategories)} className="category-toggle-btn">
+            {t('categories')}
+          </button>
+
+          {showCategories && (
+            <div className="category-list-popup">
+              <button
+                onClick={() => setSelectedCategory('')}
+                className={selectedCategory === '' ? 'active-category' : ''}
+              >
+                {t('all')}
+              </button>
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => {
+                    setSelectedCategory(cat);
+                    setShowCategories(false);
+                  }}
+                  className={selectedCategory === cat ? 'active-category' : ''}
+                >
+                  {t(cat)}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+
+
+
       <div className="home-container">
         <header className="home-header">
           <h1>{t('marketTitle')}</h1>
         </header>
-
-        <h2>{t('categories')}</h2>
-        <div className="category-buttons">
-          <button
-            onClick={() => setSelectedCategory('')}
-            className={selectedCategory === '' ? 'active-category' : ''}
-          >
-            {t('all')}
-          </button>
-          {categories.map(cat => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={selectedCategory === cat ? 'active-category' : ''}
-            >
-              {t(cat)}
-            </button>
-          ))}
-        </div>
 
         <h2>{t('productList')}</h2>
         {filteredProducts.length === 0 ? (
@@ -163,24 +193,24 @@ export default function Home() {
         ) : (
           <div className="product-grid">
             {filteredProducts.map(product => (
-              <div className="product-card">
+              <div className="product-card" key={product.id}>
                 <img src={product.image} alt={product.name} className="product-image" />
                 <div className="product-info">
                   <h3 className="product-name">{product.name}</h3>
                   <p className="product-description">{product.description || 'بدون توضیحات'}</p>
                   <p className="product-price">{product.price.toLocaleString()} ₽</p>
                   <div className="product-actions">
-                    <button className="favorite-btn">❤️</button>
-                    <button className="cart-btn">🛒</button>
+                    <button className="favorite-btn" onClick={() => handleAddToFavorites(product)}>❤️</button>
+                    <button className="cart-btn" onClick={() => handleAddToCart(product)}>🛒</button>
                   </div>
                 </div>
               </div>
-
             ))}
           </div>
-
         )}
       </div>
     </>
   );
+
+
 }

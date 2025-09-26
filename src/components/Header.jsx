@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
 
 export default function Header({
@@ -11,21 +11,28 @@ export default function Header({
   setSearchTerm,
   categories,
   showDropdown,
-  setShowDropdown
+  setShowDropdown,
+  onSearch
 }) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  const handleCategoryClick = cat => {
+    navigate(`/products?category=${encodeURIComponent(cat)}`);
+    setShowDropdown(false);
+  };
 
   return (
     <header className="ym-header">
       <div className="ym-header-top">
-        {/* لوگو سمت چپ */}
+        {/* لوگو */}
         <div className="ym-logo">
           <Link to="/home">
             <img src="/logo.png" alt="Yandex Market Clone" />
           </Link>
         </div>
 
-        {/* نوار جستجو وسط */}
+        {/* دسته‌بندی کشویی و جستجو */}
         <div className="ym-center">
           <div className="ym-category-dropdown">
             <button onClick={() => setShowDropdown(!showDropdown)}>
@@ -33,23 +40,31 @@ export default function Header({
             </button>
             {showDropdown && (
               <ul className="ym-dropdown-list">
-                {categories.map((cat, index) => (
-                  <li key={index}>{t(cat)}</li>
+                {categories.map((cat, i) => (
+                  <li key={i}>
+                    <button onClick={() => handleCategoryClick(cat)}>
+                      {t(cat)}
+                    </button>
+                  </li>
                 ))}
               </ul>
             )}
           </div>
-
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder={t('searchProduct')}
-            className="ym-search-input"
-          />
+          <div className="ym-search-wrapper">
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+              placeholder={t('searchProduct')}
+              className="ym-search-input"
+            />
+            <button className="ym-search-btn" onClick={onSearch}>
+              🔍
+            </button>
+          </div>
         </div>
 
-        {/* منوهای کاربری سمت راست */}
+        {/* منوهای کاربری */}
         <div className="ym-user-menu">
           <Link to="/cart">🛒 {t('cart')}</Link>
           <Link to="/favorites">❤️ {t('favorites')}</Link>
@@ -69,14 +84,6 @@ export default function Header({
           alt="Promo Banner"
         />
       </div>
-
-      {/* دکمه‌های زبان
-      <div className="ym-lang-buttons">
-        <button onClick={() => changeLanguage('ru')} className={currentLanguage === 'ru' ? 'active' : ''}>RU</button>
-        <button onClick={() => changeLanguage('en')} className={currentLanguage === 'en' ? 'active' : ''}>EN</button>
-        <button onClick={() => changeLanguage('fa')} className={currentLanguage === 'fa' ? 'active' : ''}>FA</button>
-        <button onClick={() => changeLanguage('tg')} className={currentLanguage === 'tg' ? 'active' : ''}>TG</button>
-      </div> */}
     </header>
-  );
+);
 }
