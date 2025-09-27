@@ -1,254 +1,266 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 export default function AdminPanel() {
   const { t } = useTranslation();
   const [products, setProducts] = useState([]);
-  const [name, setName] = useState('');
-  const [price, setPrice] = useState('');
-  const [image, setImage] = useState('');
-  const [preview, setPreview] = useState('');
+  const [categories, setCategories] = useState([]);
+  const [form, setForm] = useState({
+    name: '',
+    price: '',
+    image: '',
+    preview: '',
+    category: ''
+  });
   const [editId, setEditId] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
 
+  // دریافت محصولات و دسته‌ها
   useEffect(() => {
-    fetchProducts();
-  }, []);
+    async function fetchData() {
+      try {
+        const [prodRes, catRes] = await Promise.all([
+          fetch('http://localhost:4000/products'),
+          fetch('http://localhost:4000/categories')
+        ]);
+        if (!prodRes.ok || !catRes.ok) throw new Error();
+        const [prodData, catData] = await Promise.all([prodRes.json(), catRes.json()]);
+        setProducts(prodData);
+        setCategories(catData);
+      } catch (err) {
+        console.error(t('fetchError'), err);
+      }
+    }
+    fetchData();
+  }, [t]);
+  useEffect(() => {
+  async function loadCategories() {
+    try {
+      const res = await fetch('http://localhost:4000/categories');
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+      setCategories(data);
+    } catch (err) {
+      console.error('❌ خطا در دریافت دسته‌ها:', err);
+    }
+  }
+  loadCategories();
+}, []);
 
-  const fetchProducts = () => {
-    fetch('http://localhost:4000/products')
-      .then((res) => res.json())
-      .then((data) => setProducts(data))
-      .catch((err) => console.error(t('fetchError'), err));
+  // تغییر مقادیر فرم
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm(prev => ({ ...prev, [name]: value }));
   };
 
+  // بارگذاری و پیش‌نمایش تصویر
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
     const reader = new FileReader();
     reader.onloadend = () => {
-      setImage(reader.result);
-      setPreview(reader.result);
+      setForm(prev => ({
+        ...prev,
+        image: reader.result,
+        preview: reader.result
+      }));
     };
     reader.readAsDataURL(file);
   };
 
-  const handleSubmit = (e) => {
+  // ذخیره (افزودن یا ویرایش) محصول
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const newProduct = {
-      name,
-      price: parseInt(price),
-      image,
+    const payload = {
+      name: form.name.trim(),
+      price: Number(form.price),
+      image: form.image,
+      category: form.category
     };
 
-    const method = editId ? 'PUT' : 'POST';
-    const url = editId
-      ? `http://localhost:4000/products/${editId}`
-      : 'http://localhost:4000/products';
-
-    fetch(url, {
-      method,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newProduct),
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error(t('saveError'));
-        return res.json();
-      })
-      .then(() => {
-        alert(
-          `${t('product')} "${name}" ${editId ? t('updated') : t('added')} ${t('successfully')}`
-        );
-        setName('');
-        setPrice('');
-        setImage('');
-        setPreview('');
-        setEditId(null);
-        fetchProducts();
-      })
-      .catch((err) => {
-        console.error(t('saveError'), err);
-        alert(t('operationFailed'));
+    try {
+      const url = editId
+        ? `http://localhost:4000/products/${editId}`
+        : 'http://localhost:4000/products';
+      const method = editId ? 'PUT' : 'POST';
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
       });
+      if (!res.ok) throw new Error(t('saveError'));
+      await res.json();
+
+      alert(
+        `${t('product')} "${payload.name}" ${
+          editId ? t('updated') : t('added')
+        } ${t('successfully')}`
+      );
+      // ریست فرم و ریفرش لیست
+      setForm({ name: '', price: '', image: '', preview: '', category: '' });
+      setEditId(null);
+      const fresh = await fetch('http://localhost:4000/products').then(r => r.json());
+      setProducts(fresh);
+    } catch (err) {
+      console.error(t('saveError'), err);
+      alert(t('operationFailed'));
+    }
   };
 
-  const handleEdit = (product) => {
-    setName(product.name);
-    setPrice(product.price);
-    setImage(product.image);
-    setPreview(product.image);
-    setEditId(product.id);
+  // پر کردن فرم برای ویرایش
+  const handleEdit = (p) => {
+    setForm({
+      name: p.name,
+      price: String(p.price),
+      image: p.image,
+      preview: p.image,
+      category: p.category || ''
+    });
+    setEditId(p.id);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleDelete = (id) => {
+  // حذف محصول
+  const handleDelete = async (id) => {
     if (!window.confirm(t('confirmDelete'))) return;
-
-    fetch(`http://localhost:4000/products/${id}`, {
-      method: 'DELETE',
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error(t('deleteError'));
-        alert(t('productDeleted'));
-        fetchProducts();
-      })
-      .catch((err) => {
-        console.error(t('deleteError'), err);
-        alert(t('deleteFailed'));
+    try {
+      const res = await fetch(`http://localhost:4000/products/${id}`, {
+        method: 'DELETE'
       });
+      if (!res.ok) throw new Error(t('deleteError'));
+      alert(t('productDeleted'));
+      const fresh = await fetch('http://localhost:4000/products').then(r => r.json());
+      setProducts(fresh);
+    } catch (err) {
+      console.error(t('deleteError'), err);
+      alert(t('deleteFailed'));
+    }
   };
 
-  const filteredProducts = products
-    .filter((p) => p.name.toLowerCase().includes(searchTerm.toLowerCase()))
-    .sort((a, b) =>
-      sortOrder === 'asc' ? a.price - b.price : b.price - a.price
-    );
+  // فیلتر و مرتب‌سازی
+  const filtered = products
+    .filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()))
+    .sort((a, b) => (sortOrder === 'asc' ? a.price - b.price : b.price - a.price));
 
   return (
-    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem' }}>
+    <div className="admin-panel" style={{ maxWidth: 800, margin: '0 auto', padding: '2rem' }}>
       <h2>🎛 {t('adminPanel')}</h2>
 
-      {/* لینک‌های مدیریت */}
-      <ul style={{ listStyle: 'none', padding: 0, marginBottom: '2rem' }}>
-        <li><Link to="/admin/products">🛠 مدیریت محصولات</Link></li>
-        <li><Link to="/admin/slider">🎞 مدیریت اسلایدر</Link></li>
-        <li><Link to="/admin/categories">📂 مدیریت دسته‌بندی‌ها</Link></li>
-      </ul>
+      <nav style={{ margin: '1rem 0' }}>
+        <Link to="/admin" style={{ marginRight: '1rem' }}>
+          🛠 {t('manageProducts')}
+        </Link>
+        <Link to="/admin/slider" style={{ marginRight: '1rem' }}>
+          🎞 {t('manageSlider')}
+        </Link>
+        {/* <Link to="/admin/categories">
+          📂 {t('manageCategories')}
+        </Link> */}
+        <Link to="/admin/categories">📂 {t('manageCategories')}</Link>
+      </nav>
 
-      {/* فرم افزودن یا ویرایش محصول */}
-      <form onSubmit={handleSubmit}>
+      <section style={{ marginBottom: '2rem' }}>
+        <h3>{editId ? t('editProduct') : t('addProduct')}</h3>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <input
+            name="name"
+            type="text"
+            placeholder={t('productName')}
+            value={form.name}
+            onChange={handleChange}
+            required
+          />
+          <input
+            name="price"
+            type="number"
+            placeholder={t('price')}
+            value={form.price}
+            onChange={handleChange}
+            required
+          />
+          <select
+            name="category"
+            value={form.category}
+            onChange={handleChange}
+            required
+          >
+            <option value="">{t('selectCategory')}</option>
+            {categories.map((cat, i) => (
+              <option key={i} value={cat.name || cat}>
+                {cat.name || cat}
+              </option>
+            ))}
+          </select>
+          <label>{t('uploadImageHint')}</label>
+          <input type="file" accept="image/*" onChange={handleImageUpload} />
+          {form.preview && (
+            <img
+              src={form.preview}
+              alt={t('imagePreview')}
+              style={{ width: 200, borderRadius: 6, border: '1px solid #ccc' }}
+            />
+          )}
+          <button type="submit">
+            {editId ? t('saveChanges') : t('addProduct')}
+          </button>
+        </form>
+      </section>
+
+      <hr />
+
+      <section>
+        <h3>📦 {t('productList')}</h3>
         <input
           type="text"
-          placeholder={t('productName')}
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
+          placeholder={t('searchProduct')}
+          value={searchTerm}
+          onChange={e => setSearchTerm(e.target.value)}
           style={{ width: '100%', padding: '0.5rem', marginBottom: '1rem' }}
         />
-        <input
-          type="number"
-          placeholder={t('price')}
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          required
-          style={{ width: '100%', padding: '0.5rem', marginBottom: '1rem' }}
-        />
-        <label style={{ fontSize: '0.9rem', color: '#555' }}>
-          📷 {t('uploadImageHint')}
-        </label>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageUpload}
-          style={{ marginBottom: '1rem' }}
-        />
-        {preview && (
-          <img
-            src={preview}
-            alt={t('imagePreview')}
+        <select
+          value={sortOrder}
+          onChange={e => setSortOrder(e.target.value)}
+          style={{ width: '100%', padding: '0.5rem', marginBottom: '2rem' }}
+        >
+          <option value="asc">{t('sortAsc')}</option>
+          <option value="desc">{t('sortDesc')}</option>
+        </select>
+
+        {filtered.map(p => (
+          <div
+            key={p.id}
             style={{
-              width: '200px',
-              height: 'auto',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '1rem',
               marginBottom: '1rem',
-              borderRadius: '6px',
-              border: '1px solid #ccc',
+              background: '#f9f9f9',
+              borderRadius: 6
             }}
-          />
-        )}
-        <button
-          type="submit"
-          style={{
-            padding: '0.6rem 1.2rem',
-            backgroundColor: '#0077cc',
-            color: 'white',
-            border: 'none',
-            borderRadius: '6px',
-            cursor: 'pointer',
-          }}
-        >
-          {editId ? t('saveChanges') : t('addProduct')}
-        </button>
-      </form>
-
-      <hr style={{ margin: '2rem 0' }} />
-
-      {/* لیست محصولات */}
-      <h3>📦 {t('productList')}</h3>
-
-      <input
-        type="text"
-        placeholder={t('searchProduct')}
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        style={{ width: '100%', padding: '0.5rem', marginBottom: '1rem' }}
-      />
-
-      <select
-        value={sortOrder}
-        onChange={(e) => setSortOrder(e.target.value)}
-        style={{ width: '100%', padding: '0.5rem', marginBottom: '2rem' }}
-      >
-        <option value="asc">{t('sortAsc')}</option>
-        <option value="desc">{t('sortDesc')}</option>
-      </select>
-
-      {filteredProducts.map((product) => (
-        <div
-          key={product.id}
-          style={{
-            border: '1px solid #ccc',
-            padding: '1rem',
-            borderRadius: '6px',
-            marginBottom: '1rem',
-            backgroundColor: '#f9f9f9',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <img
-              src={product.image || 'https://via.placeholder.com/40x40?text=No+Image'}
-              alt={product.name}
-              style={{
-                width: '40px',
-                height: '40px',
-                objectFit: 'cover',
-                borderRadius: '4px',
-              }}
-            />
-            <div>
-              <h4 style={{ margin: 0 }}>{product.name}</h4>
-              <p style={{ margin: '4px 0' }}>
-                💰 {t('price')}: {product.price.toLocaleString()}
-              </p>
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <img
+                src={p.image || 'https://via.placeholder.com/40'}
+                alt={p.name}
+                style={{ width: 40, height: 40, objectFit: 'cover', borderRadius: 4 }}
+              />
+              <div>
+                <h4 style={{ margin: 0 }}>{p.name}</h4>
+                <p style={{ margin: 0 }}>
+                  💰 {t('price')}: {p.price.toLocaleString()}
+                </p>
+              </div>
             </div>
-          </div>
-
-          <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginTop: '1rem' }}>
-            <button
-              onClick={() => handleEdit(product)}
-              style={{
-                padding: '0.4rem 0.8rem',
-                backgroundColor: '#ffaa00',
-                color: 'white',
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer',
-              }}
-            >
-              ✏️ {t('edit')}
-            </button>
-            <button
-              onClick={() => handleDelete(product.id)}              >
-                ❌ {t('delete')}
-              </button>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button onClick={() => handleEdit(p)}>✏️ {t('edit')}</button>
+              <button onClick={() => handleDelete(p.id)}>❌ {t('delete')}</button>
             </div>
           </div>
         ))}
-      </div>
+      </section>
+    </div>
   );
 }

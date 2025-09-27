@@ -206,4 +206,100 @@
   text-align: left;
   cursor: pointer;
 }
+.ym-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background: #f9f9f9;
+  overflow: visible; /* مهم برای نمایش کشویی */
+}
+
+.ym-category-dropdown {
+  position: relative;
+  z-index: 1000;
+}
+
+.ym-dropdown-list {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  list-style: none;
+  z-index: 1001;
+}
+
+.ym-dropdown-list li button {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ym-dropdown-list li button:hover {
+  background: #f0f0f0;
+}
+
+/* بقیه استایل‌های جستجو */
+
+.ym-search-wrapper {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.ym-search-input {
+  padding: 0.6rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  flex: 1;
+}
+
+.ym-search-btn {
+  padding: 0.6rem 1rem;
+  background: #0077cc;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+/* مطمئن شو header و header-top overflow: visible دارن */
+.ym-header,
+.ym-header-top {
+  position: relative;
+  overflow: visible;
+}
+
+/* والد منوی کشویی */
+.ym-category-dropdown {
+  position: relative;
+  /* z-index خودِ دکمه نیاز به تغییر نداره */
+}
+
+/* خودِ لیست دسته‌ها */
+.ym-dropdown-list {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+
+  /* همین خط باعث می‌شه روی همه بیافته */
+  z-index: 9999;
+}
+
+/* اگر بنر هم position یا z-index داشت، می‌تونی پایینش بیاری */
+.ym-banner {
+  position: relative;
+  z-index: 1;
+}
+
 

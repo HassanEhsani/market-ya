@@ -5,8 +5,6 @@ import './Header.css';
 export default function Header({
   loggedIn,
   handleLogout,
-  changeLanguage,
-  currentLanguage,
   searchTerm,
   setSearchTerm,
   categories,
@@ -17,7 +15,7 @@ export default function Header({
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const handleCategoryClick = cat => {
+  const handleCategoryClick = (cat) => {
     navigate(`/products?category=${encodeURIComponent(cat)}`);
     setShowDropdown(false);
   };
@@ -25,14 +23,12 @@ export default function Header({
   return (
     <header className="ym-header">
       <div className="ym-header-top">
-        {/* لوگو */}
         <div className="ym-logo">
           <Link to="/home">
             <img src="/logo.png" alt="Yandex Market Clone" />
           </Link>
         </div>
 
-        {/* دسته‌بندی کشویی و جستجو */}
         <div className="ym-center">
           <div className="ym-category-dropdown">
             <button onClick={() => setShowDropdown(!showDropdown)}>
@@ -40,21 +36,22 @@ export default function Header({
             </button>
             {showDropdown && (
               <ul className="ym-dropdown-list">
-                {categories.map((cat, i) => (
-                  <li key={i}>
+                {categories.map((cat, index) => (
+                  <li key={index}>
                     <button onClick={() => handleCategoryClick(cat)}>
-                      {t(cat)}
+                      {cat}
                     </button>
                   </li>
                 ))}
               </ul>
             )}
           </div>
+
           <div className="ym-search-wrapper">
             <input
               type="text"
               value={searchTerm}
-              onChange={e => setSearchTerm(e.target.value)}
+              onChange={(e) => setSearchTerm(e.target.value)}
               placeholder={t('searchProduct')}
               className="ym-search-input"
             />
@@ -64,7 +61,6 @@ export default function Header({
           </div>
         </div>
 
-        {/* منوهای کاربری */}
         <div className="ym-user-menu">
           <Link to="/cart">🛒 {t('cart')}</Link>
           <Link to="/favorites">❤️ {t('favorites')}</Link>
@@ -77,7 +73,6 @@ export default function Header({
         </div>
       </div>
 
-      {/* بنر تبلیغاتی */}
       <div className="ym-banner">
         <img
           src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ2ZzZ3Z5dWZzZ3Z5dWZzZ3Z5dWZzZ3Z5/giphy.gif"
@@ -85,5 +80,5 @@ export default function Header({
         />
       </div>
     </header>
-);
+  );
 }

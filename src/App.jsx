@@ -1,10 +1,9 @@
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import Header from './components/Header';
-import Home from './pages/Home';
-import ProductList from './pages/ProductList';
+
 import LoginRegister from './pages/LoginRegister';
+import ProductList from './pages/ProductList';
 import Dashboard from './pages/Dashboard';
 import Cart from './pages/Cart';
 import AdminPanel from './pages/AdminPanel';
@@ -12,14 +11,14 @@ import ManageSlider from './pages/ManageSlider';
 import ManageProducts from './pages/ManageProducts';
 import ManageCategories from './pages/ManageCategories';
 import Favorites from './pages/Favorites';
-import './App.css';
+import Home from './pages/Home';
+import Header from './components/Header';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import './App.css';
 
 function App() {
   const { t, i18n } = useTranslation();
-  const location = useLocation();
-
   const [loggedIn, setLoggedIn] = useState(false);
   const [textAlignClass, setTextAlignClass] = useState('align-left');
   const [cart, setCart] = useState(() => {
@@ -31,43 +30,39 @@ function App() {
   const [categories, setCategories] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
 
+  // بررسی وضعیت ورود
   useEffect(() => {
     const token = localStorage.getItem('token');
     setLoggedIn(!!token);
   }, []);
 
+  // تنظیم جهت متن بر اساس زبان
   useEffect(() => {
-    const align = i18n.language === 'fa' || i18n.language === 'ar' ? 'align-right' : 'align-left';
+    const align = ['fa', 'ar'].includes(i18n.language) ? 'align-right' : 'align-left';
     setTextAlignClass(align);
   }, [i18n.language]);
 
+  // خواندن محصولات و استخراج دسته‌ها
   useEffect(() => {
-  fetch('http://localhost:4000/products')
-    .then(res => res.json())
-    .then(data => {
-      // ۱. ببین rawCategories چی پر می‌شه
-      const rawCategories = [...new Set(data.map(p => p.category))];
-      console.log('🔍 rawCategories from server:', rawCategories);
-
-      // ۲. اگر دسته‌ها توی سرور به انگلیسی هستن، باید customOrder هم انگلیسی باشه
-      //      یا برای تست مستقیم از rawCategories استفاده کن
-      // const sorted = rawCategories;
-      const customOrder = ['electronics', 'clothing', 'food'];
-      const sorted = customOrder.filter(cat => rawCategories.includes(cat));
-      console.log('🔍 sorted categories to show:', sorted);
-
-      setCategories(sorted);
-    })
-    .catch(err => console.error('خطا در دریافت دسته‌بندی‌ها:', err));
-}, []);
-
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch('http://localhost:4000/products');
+        const data = await res.json();
+        const rawCategories = [...new Set(data.map(p => p.category).filter(Boolean))];
+        setCategories(rawCategories);
+      } catch (err) {
+        console.error('خطا در دریافت دسته‌بندی‌ها:', err);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     setLoggedIn(false);
   };
 
-  const handleAddToCart = (product) => {
+  const handleAddToCart = product => {
     const updated = [...cart, product];
     setCart(updated);
     localStorage.setItem('cart', JSON.stringify(updated));
@@ -76,7 +71,10 @@ function App() {
 
   const handleSearch = () => {
     console.log('🔍 جستجو شد:', searchTerm);
+    // اینجا می‌توانید navigate یا اعمال فیلتر واقعی کنید
   };
+
+  const location = useLocation();
 
   return (
     <div className={`layout ${textAlignClass}`}>
@@ -99,16 +97,23 @@ function App() {
         ) : (
           <div className="main-content">
             <Routes>
-              <Route path="/" element={<Navigate to={loggedIn ? "/products" : "/login"} />} />
+              <Route path="/" element={<Navigate to={loggedIn ? '/products' : '/login'} />} />
               <Route path="/login" element={<LoginRegister onLogin={() => setLoggedIn(true)} />} />
-              <Route path="/products" element={<ProductList onAddToCart={handleAddToCart} />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/cart" element={<Cart />} />
+              <Route
+                path="/products"
+                element={loggedIn
+                  ? <ProductList onAddToCart={handleAddToCart} />
+                  : <Navigate to="/login" />
+                }
+              />
+              <Route path="/dashboard" element={loggedIn ? <Dashboard /> : <Navigate to="/login" />} />
+              <Route path="/cart" element={loggedIn ? <Cart /> : <Navigate to="/login" />} />
               <Route path="/admin" element={<AdminPanel />} />
               <Route path="/admin/slider" element={<ManageSlider />} />
               <Route path="/admin/products" element={<ManageProducts />} />
               <Route path="/admin/categories" element={<ManageCategories />} />
               <Route path="/favorites" element={<Favorites />} />
+              <Route path="/admin/categories" element={<ManageCategories />} />
             </Routes>
           </div>
         )}

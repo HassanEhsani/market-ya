@@ -1,97 +1,108 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
+import './ManageCategories.css';
 
 export default function ManageCategories() {
   const [categories, setCategories] = useState([]);
-  const [newCategory, setNewCategory] = useState('');
+  const [name, setName] = useState('');
 
+  // بارگذاری لیست دسته‌ها
   useEffect(() => {
-    fetch('http://localhost:4000/categories')
-      .then((res) => res.json())
-      .then((data) => setCategories(data))
-      .catch((err) => console.error('خطا در دریافت دسته‌بندی‌ها', err));
+    fetchCategories();
   }, []);
 
-  const handleAddCategory = () => {
-    if (!newCategory.trim()) return;
+  async function fetchCategories() {
+    try {
+      const res = await fetch('http://localhost:4000/categories');
+      if (!res.ok) throw new Error('Fetch failed');
+      const data = await res.json();
+      setCategories(data);
+    } catch (err) {
+      console.error('❌ خطا در دریافت دسته‌ها:', err);
+    }
+  }
 
-    const newItem = { id: Date.now().toString(), name: newCategory };
+  // افزودن دسته جدید
+  async function handleAdd(e) {
+    e.preventDefault();
+    const trimmed = name.trim();
+    if (!trimmed) return;
 
-    fetch('http://localhost:4000/categories', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newItem),
-    })
-      .then(() => {
-        setCategories([...categories, newItem]);
-        setNewCategory('');
-      })
-      .catch((err) => console.error('خطا در افزودن دسته‌بندی', err));
-  };
+    try {
+      const res = await fetch('http://localhost:4000/categories', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: trimmed })
+      });
+      if (!res.ok) throw new Error('Save failed');
+      await res.json();
+      setName('');
+      fetchCategories();
+    } catch (err) {
+      console.error('❌ خطا در افزودن دسته:', err);
+    }
+  }
 
-  const handleDelete = (id) => {
-    fetch(`http://localhost:4000/categories/${id}`, {
-      method: 'DELETE',
-    })
-      .then(() => {
-        setCategories(categories.filter((cat) => cat.id !== id));
-      })
-      .catch((err) => console.error('خطا در حذف دسته‌بندی', err));
-  };
+  // حذف دسته
+  async function handleDelete(id) {
+    if (!window.confirm('آیا از حذف این دسته اطمینان دارید؟')) return;
+
+    try {
+      const res = await fetch(`http://localhost:4000/categories/${id}`, {
+        method: 'DELETE'
+      });
+      if (!res.ok) throw new Error('Delete failed');
+      fetchCategories();
+    } catch (err) {
+      console.error('❌ خطا در حذف دسته:', err);
+    }
+  }
 
   return (
-    <div style={{ maxWidth: '600px', margin: '0 auto', padding: '2rem' }}>
+    <div className="manage-categories" style={{ maxWidth: 400, margin: '0 auto', padding: '1rem' }}>
       <h2>📂 مدیریت دسته‌بندی‌ها</h2>
 
-      <div style={{ marginBottom: '2rem' }}>
+      <form
+        onSubmit={handleAdd}
+        style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}
+      >
         <input
           type="text"
-          placeholder="نام دسته‌بندی جدید"
-          value={newCategory}
-          onChange={(e) => setNewCategory(e.target.value)}
-          style={{ padding: '0.5rem', width: '100%', marginBottom: '1rem' }}
+          placeholder="نام دسته‌بندی"
+          value={name}
+          onChange={e => setName(e.target.value)}
+          required
+          style={{ flex: 1, padding: '0.5rem' }}
         />
-        <button
-          onClick={handleAddCategory}
-          style={{
-            padding: '0.5rem 1rem',
-            backgroundColor: '#0077cc',
-            color: 'white',
-            border: 'none',
-            borderRadius: '6px',
-            cursor: 'pointer',
-          }}
-        >
-          ➕ افزودن دسته‌بندی
-        </button>
-      </div>
+        <button type="submit">➕ افزودن</button>
+      </form>
 
       <ul style={{ listStyle: 'none', padding: 0 }}>
-        {categories.map((cat) => (
+        {categories.map(cat => (
           <li
             key={cat.id}
             style={{
-              backgroundColor: '#f9f9f9',
-              padding: '0.5rem 1rem',
-              marginBottom: '0.5rem',
-              borderRadius: '6px',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
+              padding: '0.5rem 0',
+              borderBottom: '1px solid #eee',
+              color: '#333',
+              backgroundColor: '#f9f9f9'
             }}
           >
             <span>{cat.name}</span>
             <button
               onClick={() => handleDelete(cat.id)}
               style={{
-                backgroundColor: '#cc0000',
-                color: 'white',
+                padding: '0.2rem 0.6rem',
+                background: '#e74c3c',
+                color: '#fff',
                 border: 'none',
-                padding: '0.3rem 0.6rem',
-                borderRadius: '4px',
-                cursor: 'pointer',
+                borderRadius: 4,
+                cursor: 'pointer'
               }}
             >
-              ❌ حذف
+              حذف
             </button>
           </li>
         ))}
