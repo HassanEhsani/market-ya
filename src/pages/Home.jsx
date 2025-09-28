@@ -135,8 +135,8 @@ export default function Home() {
         </Slider>
       </div>
 
-      <div className="top-bar">
-        <div className="search-section">
+      {/* <div className="top-bar"> */}
+        {/* <div className="search-section">
           <input
             type="text"
             placeholder={t('searchPlaceholder')}
@@ -147,14 +147,14 @@ export default function Home() {
           <button className="search-btn" onClick={() => console.log('🔍 جستجو شد:', searchTerm)}>
             {t('search')}
           </button>
-        </div>
+        </div> */}
 
-        <div className="category-dropdown">
-          <button onClick={() => setShowCategories(!showCategories)} className="category-toggle-btn">
+        {/* <div className="category-dropdown"> */}
+          {/* <button onClick={() => setShowCategories(!showCategories)} className="category-toggle-btn">
             {t('categories')}
-          </button>
+          </button> */}
 
-          {showCategories && (
+          {/* {showCategories && (
             <div className="category-list-popup">
               <button
                 onClick={() => setSelectedCategory('')}
@@ -177,7 +177,7 @@ export default function Home() {
             </div>
           )}
         </div>
-      </div>
+      </div> */}
 
 
 

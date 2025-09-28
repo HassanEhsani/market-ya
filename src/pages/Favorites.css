@@ -14,3 +14,30 @@
   max-width: 200px;
   margin-top: 0.5rem;
 }
+.favorite-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.favorite-actions button {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.favorite-actions button:first-child {
+  background-color: #0077cc;
+  color: white;
+}
+
+.favorite-actions button:last-child {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.favorite-actions button:hover {
+  opacity: 0.9;
+}

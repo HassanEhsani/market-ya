@@ -35,16 +35,15 @@ export default function Header({
               📂 {t('categories')}
             </button>
             {showDropdown && (
-              <ul className="ym-dropdown-list">
+              <ul className="category-dropdown">
                 {categories.map((cat, index) => (
-                  <li key={index}>
-                    <button onClick={() => handleCategoryClick(cat)}>
-                      {cat}
-                    </button>
+                  <li key={index} onClick={() => handleCategoryClick(cat)}>
+                    {cat}
                   </li>
                 ))}
               </ul>
             )}
+
           </div>
 
           <div className="ym-search-wrapper">
@@ -73,12 +72,6 @@ export default function Header({
         </div>
       </div>
 
-      <div className="ym-banner">
-        <img
-          src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ2ZzZ3Z5dWZzZ3Z5dWZzZ3Z5dWZzZ3Z5/giphy.gif"
-          alt="Promo Banner"
-        />
-      </div>
     </header>
   );
 }
