@@ -6,6 +6,7 @@ export default function Favorites() {
   const { t } = useTranslation();
   const [favorites, setFavorites] = useState([]);
   const [products, setProducts] = useState([]);
+  const [removingId, setRemovingId] = useState(null);
   const userId = localStorage.getItem('userId');
 
   // دریافت محصولات
@@ -52,23 +53,32 @@ export default function Favorites() {
       });
   };
 
-  // حذف از علاقه‌مندی‌ها
+  // حذف از علاقه‌مندی‌ها با انیمیشن
   async function handleRemove(productId) {
-    try {
-      const updatedItems = favorites.filter(item => item.productId !== productId);
+    const confirm = window.confirm('آیا مطمئن هستید که می‌خواهید این محصول را حذف کنید؟');
+    if (!confirm) return;
 
-      const res = await fetch(`http://localhost:4000/favorites/8725`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: updatedItems })
-      });
+    setRemovingId(productId);
 
-      if (!res.ok) throw new Error('خطا در حذف');
-      const data = await res.json();
-      setFavorites(data.items);
-    } catch (err) {
-      console.error('❌ حذف ناموفق:', err);
-    }
+    setTimeout(async () => {
+      try {
+        const updatedItems = favorites.filter(item => item.productId !== productId);
+
+        const res = await fetch(`http://localhost:4000/favorites/8725`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ items: updatedItems })
+        });
+
+        if (!res.ok) throw new Error('خطا در حذف');
+        const data = await res.json();
+        setFavorites(data.items);
+        setRemovingId(null);
+      } catch (err) {
+        console.error('❌ حذف ناموفق:', err);
+        setRemovingId(null);
+      }
+    }, 400);
   }
 
   return (
@@ -77,26 +87,22 @@ export default function Favorites() {
       {favorites.length === 0 ? (
         <p>{t('favoritesEmpty')}</p>
       ) : (
-        favorites.map((item, index) => {
-          const product = products.find(p => p.id === item.productId);
-          return (
-            <div key={index} className="favorite-item">
-              <h3>{product?.name || 'محصول ناشناس'}</h3>
-              <p>💰 {t('price')}: {product?.price?.toLocaleString() || '---'} تومان</p>
-              {product?.image && (
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="favorite-image"
-                />
-              )}
-              <div className="favorite-actions">
-                <button onClick={() => handleAddToCart(product)}>🛒 {t('addToCart')}</button>
-                <button onClick={() => handleRemove(product.id)}>❌ {t('remove')}</button>
+        <div className="favorites-grid">
+          {favorites.map((item, index) => {
+            const product = products.find(p => p.id === item.productId);
+            return (
+              <div key={index} className={`favorite-item ${removingId === product?.id ? 'removing' : ''}`}>
+                <img src={product?.image} alt={product?.name} className="favorite-image" />
+                <h3>{product?.name || 'محصول ناشناس'}</h3>
+                <p>💰 {t('price')}: {product?.price?.toLocaleString()} تومان</p>
+                <div className="favorite-actions">
+                  <button onClick={() => handleAddToCart(product)}>🛒 {t('addToCart')}</button>
+                  <button onClick={() => handleRemove(product.id)}>❌ {t('remove')}</button>
+                </div>
               </div>
-            </div>
-          );
-        })
+            );
+          })}
+        </div>
       )}
     </div>
   );

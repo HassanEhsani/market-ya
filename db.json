@@ -62,10 +62,6 @@
         {
           "productId": "1b35",
           "quantity": 1
-        },
-        {
-          "productId": "bc56",
-          "quantity": 1
         }
       ]
     }
@@ -92,6 +88,12 @@
         },
         {
           "productId": "d978"
+        },
+        {
+          "productId": "0dd7"
+        },
+        {
+          "productId": "949c"
         }
       ]
     }
