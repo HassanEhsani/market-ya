@@ -1,14 +1,26 @@
+:root {
+  --primary-green: #2ecc71;
+  --dark-green: #27ae60;
+  --light-green: #a9dfbf;
+  --white: #ffffff;
+  --gray-border: #dddddd;
+  --text-dark: #333333;
+  --text-link: var(--primary-green);
+}
+
+/* صفحه ورود */
 .login-page {
   max-width: 400px;
   margin: 4rem auto;
   padding: 2rem;
-  background-color: #fff;
+  background-color: var(--white);
   border-radius: 8px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--gray-border);
   font-family: 'Segoe UI', sans-serif;
   text-align: center;
 }
 
+/* فرم ورود */
 .login-form {
   display: flex;
   flex-direction: column;
@@ -18,25 +30,37 @@
 
 .login-form input {
   padding: 0.5rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--gray-border);
   border-radius: 6px;
   text-align: center;
 }
 
+/* دکمه ورود */
 .login-form button {
   padding: 0.5rem 1rem;
-  background-color: #0077cc;
-  color: white;
+  background-color: var(--primary-green);
+  color: var(--white);
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
+.login-form button:hover {
+  background-color: var(--dark-green);
+}
+
+/* دکمه تغییر حالت (ثبت‌نام/ورود) */
 .toggle-btn {
   margin-top: 1rem;
   background-color: transparent;
   border: none;
-  color: #0077cc;
+  color: var(--text-link);
   cursor: pointer;
   font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+
+.toggle-btn:hover {
+  color: var(--dark-green);
 }

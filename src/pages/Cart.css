@@ -1,3 +1,16 @@
+:root {
+  --primary-green: #2ecc71;
+  --dark-green: #27ae60;
+  --light-green: #a9dfbf;
+  --white: #ffffff;
+  --gray-border: #dddddd;
+  --text-dark: #333333;
+  --shadow-color: rgba(46, 204, 113, 0.08);
+  --danger-red: #ff4d4d;
+  --danger-dark: #cc0000;
+}
+
+/* صفحه سبد خرید */
 .cart-page {
   width: 100%;
   padding: 2rem 3rem;
@@ -9,19 +22,19 @@
   display: grid;
   grid-template-columns: repeat(5, minmax(250px, 1fr));
   gap: 2rem;
-  column-gap: 2rem;/* فاصله افقی بین کارت‌ها */
-  row-gap: 4rem;/* فاصله عمودی بین سطرها */
-  justify-content: center; /* ✅ وسط‌چین شدن شبکه */
+  column-gap: 2rem;
+  row-gap: 4rem;
+  justify-content: center;
 }
 
 /* کارت محصول */
 .cart-item {
-  background-color: #fff;
-  border: 1px solid #ddd;
+  background-color: var(--white);
+  border: 1px solid var(--gray-border);
   border-radius: 12px;
   padding: 1.5rem;
   text-align: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px var(--shadow-color);
   transition: transform 0.2s ease;
   display: flex;
   flex-direction: column;
@@ -38,11 +51,13 @@
   margin-bottom: 0.6rem;
   font-size: 1.2rem;
   font-weight: 600;
+  color: var(--text-dark);
 }
 
 .cart-item p {
   margin: 0.4rem 0;
   font-size: 0.95rem;
+  color: var(--text-dark);
 }
 
 /* تصویر محصول */
@@ -56,17 +71,18 @@
 
 /* دکمه حذف */
 .cart-item button {
-  background-color: #ff4d4d;
-  color: white;
+  background-color: var(--danger-red);
+  color: var(--white);
   border: none;
   border-radius: 6px;
   padding: 0.5rem 1rem;
   cursor: pointer;
   font-size: 0.9rem;
+  transition: background-color 0.2s ease;
 }
 
 .cart-item button:hover {
-  background-color: #cc0000;
+  background-color: var(--danger-dark);
 }
 
 /* مجموع قیمت کل */
@@ -75,4 +91,5 @@
   font-size: 1.3rem;
   font-weight: bold;
   text-align: center;
+  color: var(--dark-green);
 }

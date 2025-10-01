@@ -1,3 +1,17 @@
+:root {
+  --primary-green: #2ecc71;
+  --dark-green: #27ae60;
+  --light-green: #a9dfbf;
+  --white: #ffffff;
+  --gray-bg: #f9f9f9;
+  --gray-border: #dddddd;
+  --text-dark: #333333;
+  --text-muted: #555555;
+  --shadow-color: rgba(46, 204, 113, 0.08);
+  --danger-red: #ff4d4d;
+  --danger-dark: #cc0000;
+}
+
 /* حذف فاصله‌های پیش‌فرض مرورگر */
 body {
   margin: 0;
@@ -9,14 +23,14 @@ body {
   width: 100%;
   padding: 2rem 3rem;
   box-sizing: border-box;
-  background-color: #f9f9f9;
+  background-color: var(--gray-bg);
 }
 
 /* عنوان صفحه */
 .favorites-page h2 {
   font-size: 1.8rem;
   margin-bottom: 1.5rem;
-  color: #333;
+  color: var(--text-dark);
   text-align: center;
 }
 
@@ -25,19 +39,19 @@ body {
   display: grid;
   grid-template-columns: repeat(5, minmax(250px, 1fr));
   gap: 2rem;
-  column-gap: 2rem;/* فاصله افقی بین کارت‌ها */
-  row-gap: 4rem;/* فاصله عمودی بین سطرها */
+  column-gap: 2rem;
+  row-gap: 4rem;
   justify-content: center;
 }
 
 /* کارت محصول علاقه‌مندی */
 .favorite-item {
-  background-color: #fff;
-  border: 1px solid #ddd;
+  background-color: var(--white);
+  border: 1px solid var(--gray-border);
   border-radius: 12px;
   padding: 1.5rem;
   text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px var(--shadow-color);
   transition: transform 0.2s ease;
   display: flex;
   flex-direction: column;
@@ -55,12 +69,13 @@ body {
   margin-bottom: 0.6rem;
   font-size: 1.2rem;
   font-weight: 600;
+  color: var(--text-dark);
 }
 
 .favorite-item p {
   margin: 0.4rem 0;
   font-size: 0.95rem;
-  color: #555;
+  color: var(--text-muted);
 }
 
 /* تصویر محصول */
@@ -91,18 +106,22 @@ body {
 
 /* افزودن به سبد خرید */
 .favorite-actions button:first-child {
-  background-color: #0077cc;
-  color: white;
+  background-color: var(--primary-green);
+  color: var(--white);
+}
+
+.favorite-actions button:first-child:hover {
+  background-color: var(--dark-green);
 }
 
 /* حذف از علاقه‌مندی‌ها */
 .favorite-actions button:last-child {
-  background-color: #ff4d4d;
-  color: white;
+  background-color: var(--danger-red);
+  color: var(--white);
 }
 
 .favorite-actions button:last-child:hover {
-  background-color: #cc0000;
+  background-color: var(--danger-dark);
 }
 
 .favorite-actions button:hover {

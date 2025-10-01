@@ -94,10 +94,10 @@ export default function Favorites() {
               <div key={index} className={`favorite-item ${removingId === product?.id ? 'removing' : ''}`}>
                 <img src={product?.image} alt={product?.name} className="favorite-image" />
                 <h3>{product?.name || 'محصول ناشناس'}</h3>
-                <p>💰 {t('price')}: {product?.price?.toLocaleString()} تومان</p>
+                <p>💰 {t('price')}: {product?.price?.toLocaleString()} ₽</p>
                 <div className="favorite-actions">
-                  <button onClick={() => handleAddToCart(product)}>🛒 {t('addToCart')}</button>
-                  <button onClick={() => handleRemove(product.id)}>❌ {t('remove')}</button>
+                  <button onClick={() => handleAddToCart(product)}>🛒 {t('Add')}</button>
+                  <button onClick={() => handleRemove(product.id)}>❌ {t('Del')}</button>
                 </div>
               </div>
             );

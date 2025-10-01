@@ -1,23 +1,43 @@
+:root {
+  --primary-green: #2ecc71;
+  --dark-green: #27ae60;
+  --light-green: #a9dfbf;
+  --white: #ffffff;
+  --gray-bg: #f9f9f9;
+  --gray-border: #eeeeee;
+  --text-dark: #333333;
+  --danger-red: #e74c3c;
+  --danger-dark: #c0392b;
+}
+
+/* لیست دسته‌بندی‌ها */
 .manage-categories ul {
   list-style: none;
   padding: 0;
 }
 
+/* آیتم‌های دسته‌بندی */
 .manage-categories li {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem 0;
-  border-bottom: 1px solid #eee;
-  color: #333;              /* رنگ متن */
-  background-color: #f9f9f9; /* بک‌گراند ملایم */
+  border-bottom: 1px solid var(--gray-border);
+  color: var(--text-dark);
+  background-color: var(--gray-bg);
 }
 
+/* دکمه حذف دسته */
 .manage-categories button {
   padding: 0.2rem 0.6rem;
-  background: #e74c3c;
-  color: #fff;
+  background: var(--danger-red);
+  color: var(--white);
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.manage-categories button:hover {
+  background-color: var(--danger-dark);
 }

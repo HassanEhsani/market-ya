@@ -135,53 +135,6 @@ export default function Home() {
         </Slider>
       </div>
 
-      {/* <div className="top-bar"> */}
-        {/* <div className="search-section">
-          <input
-            type="text"
-            placeholder={t('searchPlaceholder')}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="search-input"
-          />
-          <button className="search-btn" onClick={() => console.log('🔍 جستجو شد:', searchTerm)}>
-            {t('search')}
-          </button>
-        </div> */}
-
-        {/* <div className="category-dropdown"> */}
-          {/* <button onClick={() => setShowCategories(!showCategories)} className="category-toggle-btn">
-            {t('categories')}
-          </button> */}
-
-          {/* {showCategories && (
-            <div className="category-list-popup">
-              <button
-                onClick={() => setSelectedCategory('')}
-                className={selectedCategory === '' ? 'active-category' : ''}
-              >
-                {t('all')}
-              </button>
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => {
-                    setSelectedCategory(cat);
-                    setShowCategories(false);
-                  }}
-                  className={selectedCategory === cat ? 'active-category' : ''}
-                >
-                  {t(cat)}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-      </div> */}
-
-
-
-
       <div className="home-container">
         <header className="home-header">
           <h1>{t('marketTitle')}</h1>

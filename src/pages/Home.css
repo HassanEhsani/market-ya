@@ -1,11 +1,22 @@
+:root {
+  --primary-green: #2ecc71;
+  --dark-green: #27ae60;
+  --light-green: #a9dfbf;
+  --white: #ffffff;
+  --gray-bg: #f9f9f9;
+  --gray-border: #cccccc;
+  --text-dark: #333333;
+  --text-muted: #555555;
+  --shadow-color: rgba(46, 204, 113, 0.08);
+}
+
 /* اسلایدر تمام‌عرض با پیش‌نمایش کناری */
 .slider-wrapper {
   width: 100%;
   padding-top: 2rem;
-  padding-bottom: 0.5rem; /* 👈 کاهش فاصله پایین */
+  padding-bottom: 0.5rem;
   overflow: hidden;
 }
-
 
 .slider-item {
   padding: 0 10px;
@@ -28,17 +39,16 @@
   max-height: 400px;
   object-fit: cover;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px var(--shadow-color);
 }
 
 /* کانتینر اصلی */
 .home-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding-top: 0; /* 👈 حذف فاصله بالا */
+  padding-top: 0;
   padding-bottom: 2rem;
 }
-
 
 .home-header {
   margin-bottom: 2rem;
@@ -56,16 +66,16 @@
 
 .category-buttons button {
   padding: 0.5rem 1rem;
-  background-color: #eee;
-  color: black;
-  border: 1px solid #ccc;
+  background-color: var(--light-green);
+  color: var(--text-dark);
+  border: 1px solid var(--primary-green);
   border-radius: 6px;
   cursor: pointer;
 }
 
 .category-buttons .active-category {
-  background-color: #0077cc;
-  color: white;
+  background-color: var(--primary-green);
+  color: var(--white);
 }
 
 /* شبکه محصولات وسط‌چین و منظم */
@@ -73,8 +83,8 @@
   display: grid;
   grid-template-columns: repeat(5, minmax(250px, 1fr));
   gap: 2rem;
-  column-gap: 2rem;/* فاصله افقی بین کارت‌ها */
-  row-gap: 4rem;/* فاصله عمودی بین سطرها */
+  column-gap: 2rem;
+  row-gap: 4rem;
   justify-content: center;
   padding: 2rem 3rem;
   box-sizing: border-box;
@@ -82,12 +92,12 @@
 
 /* کارت محصول */
 .product-card {
-  background-color: #fff;
-  border: 1px solid #ddd;
+  background-color: var(--white);
+  border: 1px solid var(--gray-border);
   border-radius: 12px;
   padding: 1.5rem;
   text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px var(--shadow-color);
   transition: transform 0.2s ease;
   display: flex;
   flex-direction: column;
@@ -117,12 +127,13 @@
   margin-bottom: 0.6rem;
   font-size: 1.2rem;
   font-weight: 600;
+  color: var(--text-dark);
 }
 
 .product-description {
   margin: 0.4rem 0;
   font-size: 0.95rem;
-  color: #555;
+  color: var(--text-muted);
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -132,7 +143,7 @@
 .product-price {
   font-size: 1rem;
   font-weight: bold;
-  color: #0077cc;
+  color: var(--primary-green);
   margin-bottom: 0.8rem;
 }
 
@@ -150,17 +161,19 @@
   font-size: 1.4rem;
   cursor: pointer;
   transition: transform 0.2s ease;
+  color: var(--primary-green);
 }
 
 .favorite-btn:hover,
 .cart-btn:hover {
   transform: scale(1.2);
 }
+
 button:focus {
   outline: none;
 }
 
-
+/* نوار بالا */
 .top-bar {
   display: flex;
   align-items: center;
@@ -170,44 +183,7 @@ button:focus {
   flex-wrap: wrap;
 }
 
-.search-input {
-  flex: 1;
-  min-width: 200px;
-  padding: 0.6rem 1rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-}
-
-.category-inline {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-
-.category-inline button {
-  padding: 0.5rem 1rem;
-  background-color: #eee;
-  color: black;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.9rem;
-}
-
-.category-inline .active-category {
-  background-color: #0077cc;
-  color: white;
-}
-.top-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 3rem;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
+/* جستجو */
 .search-section {
   display: flex;
   gap: 0.5rem;
@@ -216,42 +192,71 @@ button:focus {
 
 .search-input {
   flex: 1;
+  min-width: 200px;
   padding: 0.6rem 1rem;
   font-size: 1rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--gray-border);
   border-radius: 8px;
 }
 
 .search-btn {
   padding: 0.6rem 1rem;
-  background-color: #0077cc;
-  color: white;
+  background-color: var(--primary-green);
+  color: var(--white);
   border: none;
   border-radius: 8px;
   cursor: pointer;
 }
 
+.search-btn:hover {
+  background-color: var(--dark-green);
+}
+
+/* دسته‌بندی خطی */
+.category-inline {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.category-inline button {
+  padding: 0.5rem 1rem;
+  background-color: var(--light-green);
+  color: var(--text-dark);
+  border: 1px solid var(--primary-green);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.category-inline .active-category {
+  background-color: var(--primary-green);
+  color: var(--white);
+}
+
+/* منوی کشویی دسته‌بندی */
 .category-dropdown {
   position: relative;
 }
 
 .category-toggle-btn {
   padding: 0.6rem 1rem;
-  background-color: #eee;
-  border: 1px solid #ccc;
+  background-color: var(--light-green);
+  border: 1px solid var(--primary-green);
   border-radius: 8px;
   cursor: pointer;
+  color: var(--text-dark);
 }
 
 .category-list-popup {
   position: absolute;
   top: 110%;
   right: 0;
-  background-color: white;
-  border: 1px solid #ccc;
+  background-color: var(--white);
+  border: 1px solid var(--primary-green);
   border-radius: 8px;
   padding: 1rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px var(--shadow-color);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -260,14 +265,14 @@ button:focus {
 
 .category-list-popup button {
   padding: 0.5rem 1rem;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
+  background-color: var(--gray-bg);
+  border: 1px solid var(--gray-border);
   border-radius: 6px;
   cursor: pointer;
+  color: var(--text-dark);
 }
 
 .category-list-popup .active-category {
-  background-color: #0077cc;
-  color: white;
+  background-color: var(--primary-green);
+  color: var(--white);
 }
-

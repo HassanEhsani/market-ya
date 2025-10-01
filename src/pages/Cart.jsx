@@ -61,7 +61,7 @@ export default function Cart() {
               return (
                 <div key={index} className="cart-item">
                   <h3>{product?.name || 'محصول ناشناس'}</h3>
-                  <p>💰 {t('price')}: {product?.price?.toLocaleString() || '---'} تومان</p>
+                  <p>💰 {t('price')}: {product?.price?.toLocaleString() || '---'} ₽</p>
                   <p>📦 تعداد: {item.quantity}</p>
                   {product?.image && (
                     <img
@@ -75,7 +75,7 @@ export default function Cart() {
               );
             })}
           </div>
-          <p className="cart-total">💳 مجموع کل: {totalPrice.toLocaleString()} تومان</p>
+          <p className="cart-total">💳 مجموع کل: {totalPrice.toLocaleString()} ₽</p>
         </>
       )}
     </div>

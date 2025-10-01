@@ -16,6 +16,8 @@ import Header from './components/Header';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './App.css';
+import SellerDashboard from './pages/SellerDashboard';
+import ProductMarketplace from './pages/ProductMarketplace';
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -114,6 +116,8 @@ function App() {
               <Route path="/admin/categories" element={<ManageCategories />} />
               <Route path="/favorites" element={<Favorites />} />
               <Route path="/admin/categories" element={<ManageCategories />} />
+              <Route path="/seller" element={<SellerDashboard />} />
+              <Route path="/market" element={<ProductMarketplace />} />
             </Routes>
           </div>
         )}

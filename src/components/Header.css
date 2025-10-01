@@ -1,8 +1,22 @@
+:root {
+  --primary-green: #2ecc71;
+  --dark-green: #27ae60;
+  --light-green: #a9dfbf;
+  --white: #ffffff;
+  --gray-border: #cccccc;
+  --gray-bg: #f9f9f9;
+  --gray-hover: #eafaf1;
+  --text-dark: #333333;
+  --text-link: var(--primary-green);
+}
 
+/* Header */
 .ym-header {
-  background-color: #fff;
-  border-bottom: 1px solid #ddd;
+  background-color: var(--white);
+  border-bottom: 1px solid var(--gray-border);
   padding: 1rem 2rem;
+  position: relative;
+  overflow: visible;
 }
 
 .ym-header-top {
@@ -10,6 +24,9 @@
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+  padding: 1rem 2rem;
+  background: var(--gray-bg);
+  overflow: visible;
 }
 
 .ym-logo img {
@@ -22,48 +39,95 @@
   gap: 1rem;
 }
 
-.ym-search-input {
-  width: 300px;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+/* Search */
+.ym-search-wrapper {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
 }
 
+.ym-search-input {
+  width: 300px;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--gray-border);
+  border-radius: 6px;
+  flex: 1;
+}
+
+.ym-search-btn {
+  padding: 0.6rem 1rem;
+  background-color: var(--primary-green);
+  color: var(--white);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.ym-search-btn:hover {
+  background-color: var(--dark-green);
+}
+
+/* Category Dropdown */
 .ym-category-dropdown {
   position: relative;
+  z-index: 1000;
 }
 
 .ym-category-dropdown button {
   padding: 0.4rem 0.8rem;
-  background-color: #eee;
-  border: 1px solid #ccc;
+  background-color: var(--light-green);
+  border: 1px solid var(--primary-green);
   border-radius: 6px;
   cursor: pointer;
+  color: var(--text-dark);
 }
 
 .ym-dropdown-list {
   position: absolute;
   top: 110%;
   left: 0;
-  background-color: #fff;
-  border: 1px solid #ccc;
+  background-color: var(--white);
+  border: 1px solid var(--primary-green);
   border-radius: 6px;
   list-style: none;
   padding: 0.5rem;
-  width: 200px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  z-index: 10;
+  width: 220px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .ym-dropdown-list li {
   padding: 0.5rem;
   cursor: pointer;
+  color: var(--text-dark);
+  font-weight: 500;
 }
 
 .ym-dropdown-list li:hover {
-  background-color: #f0f0f0;
+  background-color: var(--gray-hover);
 }
 
+.ym-dropdown-list li button {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.95rem;
+  border-radius: 6px;
+  color: var(--text-dark);
+}
+
+.ym-dropdown-list li button:hover {
+  background-color: var(--gray-hover);
+}
+
+/* User Menu */
 .ym-user-menu {
   display: flex;
   gap: 1rem;
@@ -73,13 +137,14 @@
 .ym-user-menu a,
 .ym-user-menu button {
   text-decoration: none;
-  color: #0077cc;
+  color: var(--text-link);
   font-weight: bold;
   background: none;
   border: none;
   cursor: pointer;
 }
 
+/* Banner */
 .ym-banner img {
   width: 100%;
   max-height: 200px;
@@ -89,6 +154,7 @@
   border-radius: 8px;
 }
 
+/* Language Buttons */
 .ym-lang-buttons {
   margin-top: 1rem;
   display: flex;
@@ -98,214 +164,22 @@
 
 .ym-lang-buttons button {
   padding: 0.4rem 0.8rem;
-  border: 1px solid #ccc;
-  background-color: #eee;
+  border: 1px solid var(--primary-green);
+  background-color: var(--light-green);
   border-radius: 6px;
   cursor: pointer;
+  color: var(--text-dark);
 }
 
 .ym-lang-buttons .active {
-  background-color: #0077cc;
-  color: white;
-}
-.ym-dropdown-list {
-  position: absolute;
-  top: 110%;
-  left: 0;
-  background-color: #f9f9f9; /* رنگ پس‌زمینه روشن‌تر و قابل‌تشخیص */
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  list-style: none;
-  padding: 0.5rem;
-  width: 220px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  z-index: 1000;
+  background-color: var(--primary-green);
+  color: var(--white);
 }
 
-.ym-dropdown-list li {
-  padding: 0.5rem;
-  cursor: pointer;
-  color: #333; /* رنگ نوشته تیره‌تر برای خوانایی بهتر */
-  font-weight: 500;
-}
-
-.ym-dropdown-list li:hover {
-  background-color: #e6f0ff; /* رنگ آبی ملایم هنگام هاور */
-}
-
-.ym-search-wrapper {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.ym-search-btn {
-  padding: 0.5rem 1rem;
-  background-color: #0077cc;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-.ym-category-dropdown {
-  position: relative;
-}
-
-.ym-dropdown-list {
-  position: absolute;
-  top: 110%;
-  left: 0;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 0.5rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  z-index: 10;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.ym-dropdown-list li button {
-  background: none;
-  border: none;
-  padding: 0.5rem 1rem;
-  text-align: left;
-  cursor: pointer;
-  font-size: 0.95rem;
-  border-radius: 6px;
-}
-
-.ym-dropdown-list li button:hover {
-  background-color: #f0f0f0;
-}
-.ym-category-dropdown {
-  position: relative;
-  z-index: 1000; /* مطمئن می‌شه منو بالاتر از بقیه لایه‌ها باشه */
-}
-
-.ym-dropdown-list {
-  position: absolute;
-  top: 110%;
-  left: 0;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  padding: 0.5rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  list-style: none;
-  z-index: 1001; /* بالاتر از پدر */
-}
-
-.ym-dropdown-list li button {
-  width: 100%;
-  background: none;
-  border: none;
-  padding: 0.5rem 1rem;
-  text-align: left;
-  cursor: pointer;
-}
-.ym-header-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 2rem;
-  background: #f9f9f9;
-  overflow: visible; /* مهم برای نمایش کشویی */
-}
-
-.ym-category-dropdown {
-  position: relative;
-  z-index: 1000;
-}
-
-.ym-dropdown-list {
-  position: absolute;
-  top: 110%;
-  left: 0;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  padding: 0.5rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  list-style: none;
-  z-index: 1001;
-}
-
-.ym-dropdown-list li button {
-  width: 100%;
-  background: none;
-  border: none;
-  padding: 0.5rem 1rem;
-  text-align: left;
-  cursor: pointer;
-}
-
-.ym-dropdown-list li button:hover {
-  background: #f0f0f0;
-}
-
-/* بقیه استایل‌های جستجو */
-
-/* .ym-search-wrapper {
-  display: flex;
-  gap: 0.5rem;
-} */
-
-.ym-search-input {
-  padding: 0.6rem 1rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  flex: 1;
-}
-
-.ym-search-btn {
-  padding: 0.6rem 1rem;
-  background: #0077cc;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-/* مطمئن شو header و header-top overflow: visible دارن */
-.ym-header,
-.ym-header-top {
-  position: relative;
-  overflow: visible;
-}
-
-/* والد منوی کشویی */
-.ym-category-dropdown {
-  position: relative;
-  /* z-index خودِ دکمه نیاز به تغییر نداره */
-}
-
-/* خودِ لیست دسته‌ها */
-.ym-dropdown-list {
-  position: absolute;
-  top: 110%;
-  left: 0;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  padding: 0.5rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-
-  /* همین خط باعث می‌شه روی همه بیافته */
-  z-index: 9999;
-}
-
-/* اگر بنر هم position یا z-index داشت، می‌تونی پایینش بیاری */
-/* .ym-banner {
-  position: relative;
-  z-index: 1;
-} */
+/* Category Dropdown (duplicate block preserved) */
 .category-dropdown {
-  background-color: #ffffff;
-  border: 1px solid #ccc;
+  background-color: var(--white);
+  border: 1px solid var(--gray-border);
   padding: 0.5rem;
   border-radius: 6px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -313,14 +187,11 @@
 
 .category-dropdown li {
   padding: 0.4rem 0.8rem;
-  color: #333; /* رنگ متن تیره */
+  color: var(--text-dark);
   cursor: pointer;
   transition: background 0.2s ease;
 }
 
 .category-dropdown li:hover {
-  background-color: #f0f0f0; /* بک‌گراند موقع هاور */
+  background-color: var(--gray-hover);
 }
-
-
-
