@@ -23,10 +23,13 @@ export default function AdminPanel() {
       try {
         const [prodRes, catRes] = await Promise.all([
           fetch('http://localhost:4000/products'),
-          fetch('http://localhost:4000/categories')
+          fetch('http://localhost:4000/api/categories') // ✅ مسیر درست
         ]);
         if (!prodRes.ok || !catRes.ok) throw new Error();
-        const [prodData, catData] = await Promise.all([prodRes.json(), catRes.json()]);
+        const [prodData, catData] = await Promise.all([
+          prodRes.json(),
+          catRes.json()
+        ]);
         setProducts(prodData);
         setCategories(catData);
       } catch (err) {
@@ -35,19 +38,20 @@ export default function AdminPanel() {
     }
     fetchData();
   }, [t]);
+
   useEffect(() => {
-  async function loadCategories() {
-    try {
-      const res = await fetch('http://localhost:4000/categories');
-      if (!res.ok) throw new Error();
-      const data = await res.json();
-      setCategories(data);
-    } catch (err) {
-      console.error('❌ خطا در دریافت دسته‌ها:', err);
+    async function loadCategories() {
+      try {
+        const res = await fetch('http://localhost:4000/categories');
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+        setCategories(data);
+      } catch (err) {
+        console.error('❌ خطا در دریافت دسته‌ها:', err);
+      }
     }
-  }
-  loadCategories();
-}, []);
+    loadCategories();
+  }, []);
 
   // تغییر مقادیر فرم
   const handleChange = (e) => {
@@ -94,8 +98,7 @@ export default function AdminPanel() {
       await res.json();
 
       alert(
-        `${t('product')} "${payload.name}" ${
-          editId ? t('updated') : t('added')
+        `${t('product')} "${payload.name}" ${editId ? t('updated') : t('added')
         } ${t('successfully')}`
       );
       // ریست فرم و ریفرش لیست
@@ -155,9 +158,7 @@ export default function AdminPanel() {
         <Link to="/admin/slider" style={{ marginRight: '1rem' }}>
           🎞 {t('manageSlider')}
         </Link>
-        {/* <Link to="/admin/categories">
-          📂 {t('manageCategories')}
-        </Link> */}
+        
         <Link to="/admin/categories">📂 {t('manageCategories')}</Link>
       </nav>
 
@@ -187,12 +188,13 @@ export default function AdminPanel() {
             required
           >
             <option value="">{t('selectCategory')}</option>
-            {categories.map((cat, i) => (
-              <option key={i} value={cat.name || cat}>
-                {cat.name || cat}
+            {categories.map(cat => (
+              <option key={cat.id} value={cat.name}>
+                {cat.name}
               </option>
             ))}
           </select>
+
           <label>{t('uploadImageHint')}</label>
           <input type="file" accept="image/*" onChange={handleImageUpload} />
           {form.preview && (

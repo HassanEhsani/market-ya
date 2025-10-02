@@ -9,6 +9,7 @@ export default function Home() {
   const [sliderItems, setSliderItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [showCategories, setShowCategories] = useState(false);
 
   useEffect(() => {
     fetch('http://localhost:4000/products')
@@ -47,16 +48,17 @@ export default function Home() {
       cartId = newData[0].id;
     } else {
       cartId = data[0].id;
-      items = data[0].items;
+      const rawItems = data[0].items;
+      items = Array.isArray(rawItems) ? rawItems : JSON.parse(rawItems || '[]');
     }
 
     const existingItem = items.find(item => item.productId === product.id);
     const updatedItems = existingItem
       ? items.map(item =>
-        item.productId === product.id
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
-      )
+          item.productId === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        )
       : [...items, { productId: product.id, quantity: 1 }];
 
     await fetch(`http://localhost:4000/carts/${cartId}`, {
@@ -86,10 +88,14 @@ export default function Home() {
       });
     } else {
       const favorites = data[0];
-      const alreadyExists = favorites.items.find(item => item.productId === product.id);
+      const rawItems = favorites.items;
+      const parsedItems = Array.isArray(rawItems) ? rawItems : JSON.parse(rawItems || '[]');
+
+      const alreadyExists = parsedItems.find(item => item.productId === product.id);
       if (alreadyExists) return alert('✅ قبلاً در علاقه‌مندی‌ها بوده');
 
-      const updatedItems = [...favorites.items, { productId: product.id }];
+      const updatedItems = [...parsedItems, { productId: product.id }];
+
       await fetch(`http://localhost:4000/favorites/${favorites.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -105,10 +111,6 @@ export default function Home() {
     const categoryMatch = selectedCategory ? product.category === selectedCategory : true;
     return nameMatch && categoryMatch;
   });
-
-  // const categories = ['electronics', 'clothing', 'food'];
-  const [showCategories, setShowCategories] = useState(false);
-
 
   const sliderSettings = {
     dots: false,
@@ -147,7 +149,11 @@ export default function Home() {
           <div className="product-grid">
             {filteredProducts.map(product => (
               <div className="product-card" key={product.id}>
-                <img src={product.image} alt={product.name} className="product-image" />
+                {product.image ? (
+                  <img src={product.image} alt={product.name} className="product-image" />
+                ) : (
+                  <div className="product-image-placeholder">بدون عکس</div>
+                )}
                 <div className="product-info">
                   <h3 className="product-name">{product.name}</h3>
                   <p className="product-description">{product.description || 'بدون توضیحات'}</p>
@@ -164,6 +170,4 @@ export default function Home() {
       </div>
     </>
   );
-
-
 }

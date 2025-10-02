@@ -12,7 +12,7 @@ export default function ManageCategories() {
 
   async function fetchCategories() {
     try {
-      const res = await fetch('http://localhost:4000/categories');
+      const res = await fetch('http://localhost:4000/api/categories');
       if (!res.ok) throw new Error('Fetch failed');
       const data = await res.json();
       setCategories(data);
@@ -28,7 +28,7 @@ export default function ManageCategories() {
     if (!trimmed) return;
 
     try {
-      const res = await fetch('http://localhost:4000/categories', {
+      const res = await fetch('http://localhost:4000/api/categories', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: trimmed })
@@ -47,7 +47,7 @@ export default function ManageCategories() {
     if (!window.confirm('آیا از حذف این دسته اطمینان دارید؟')) return;
 
     try {
-      const res = await fetch(`http://localhost:4000/categories/${id}`, {
+      const res = await fetch(`http://localhost:4000/api/categories/${id}`, {
         method: 'DELETE'
       });
       if (!res.ok) throw new Error('Delete failed');
@@ -107,6 +107,7 @@ export default function ManageCategories() {
           </li>
         ))}
       </ul>
+
     </div>
   );
 }

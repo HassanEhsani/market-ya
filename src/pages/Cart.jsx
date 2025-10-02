@@ -23,7 +23,12 @@ export default function Cart() {
       .then(res => res.json())
       .then(data => {
         if (data.length > 0) {
-          setCartItems(data[0].items);
+          const rawItems = data[0].items;
+          const parsedItems = Array.isArray(rawItems)
+            ? rawItems
+            : JSON.parse(rawItems || '[]');
+
+          setCartItems(parsedItems);
           setCartId(data[0].id);
         }
       });
@@ -81,3 +86,5 @@ export default function Cart() {
     </div>
   );
 }
+
+
