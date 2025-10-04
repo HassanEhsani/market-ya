@@ -45,6 +45,16 @@
 			path = AppPrototypeUITests;
 			sourceTree = "<group>";
 		};
+		47B306872E910B2100C60CD7 /* Models */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Models;
+			sourceTree = "<group>";
+		};
+		47B3068B2E910CF600C60CD7 /* Helpers */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +89,8 @@
 				47B306562E90079300C60CD7 /* AppPrototypeTests */,
 				47B306602E90079300C60CD7 /* AppPrototypeUITests */,
 				47B306472E90079000C60CD7 /* Products */,
+				47B306872E910B2100C60CD7 /* Models */,
+				47B3068B2E910CF600C60CD7 /* Helpers */,
 			);
 			sourceTree = "<group>";
 		};
@@ -109,6 +121,8 @@
 			);
 			fileSystemSynchronizedGroups = (
 				47B306482E90079000C60CD7 /* AppPrototype */,
+				47B306872E910B2100C60CD7 /* Models */,
+				47B3068B2E910CF600C60CD7 /* Helpers */,
 			);
 			name = AppPrototype;
 			packageProductDependencies = (
