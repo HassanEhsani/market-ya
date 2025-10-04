@@ -1,0 +1,183 @@
+:root {
+  --primary-green: #2ecc71;
+  --dark-green: #27ae60;
+  --light-green: #a9dfbf;
+  --white: #ffffff;
+  --gray-bg: #f9f9f9;
+  --gray-border: #cccccc;
+  --text-dark: #333333;
+  --text-muted: #555555;
+  --shadow-color: rgba(46, 204, 113, 0.08);
+}
+
+/* کل صفحه */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--gray-bg);
+}
+
+/* جهت متن */
+.align-left {
+  text-align: left;
+}
+
+.align-right {
+  text-align: right;
+}
+
+/* هدر تمام عرض */
+.site-header {
+  background-color: var(--primary-green);
+  color: var(--white);
+  padding: 2rem;
+  text-align: center;
+  border-bottom: 1px solid var(--gray-border);
+  width: 100%;
+}
+
+.site-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--white);
+}
+
+/* دکمه‌های زبان */
+.lang-buttons {
+  margin-top: 0.5rem;
+}
+
+.lang-buttons button {
+  margin: 0 0.25rem;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 6px;
+  background-color: var(--white);
+  color: var(--primary-green);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.lang-buttons button:hover {
+  background-color: var(--light-green);
+}
+
+/* محتوای اصلی وسط‌چین */
+.site-main {
+  flex: 1;
+  width: 100%;
+  padding: 2rem 1rem;
+}
+
+.main-content {
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* فوتر تمام عرض */
+.site-footer {
+  background-color: var(--gray-bg);
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  width: 100%;
+}
+
+/* آیتم سبد خرید */
+.cart-item {
+  background-color: var(--white);
+  color: var(--text-dark);
+  padding: 1rem;
+  border: 1px solid var(--gray-border);
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+/* کارت محصول */
+.product-card {
+  border: 1px solid var(--gray-border);
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  background-color: var(--white);
+  text-align: center;
+  box-shadow: 0 2px 6px var(--shadow-color);
+}
+
+.product-card img {
+  width: 150px;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+/* دکمه افزودن به سبد خرید */
+.add-to-cart-btn {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--primary-green);
+  color: var(--white);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  transition: background-color 0.2s ease;
+}
+
+.add-to-cart-btn:hover {
+  background-color: var(--dark-green);
+}
+
+/* صفحه خانه */
+.home-container {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.home-header {
+  margin-bottom: 2rem;
+}
+
+/* ورودی جستجو */
+.search-input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid var(--gray-border);
+  border-radius: 6px;
+}
+
+/* دکمه‌های دسته‌بندی */
+.category-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.category-buttons button {
+  padding: 0.5rem 1rem;
+  background-color: var(--light-green);
+  color: var(--text-dark);
+  border: 1px solid var(--primary-green);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.category-buttons .active-category {
+  background-color: var(--primary-green);
+  color: var(--white);
+}
