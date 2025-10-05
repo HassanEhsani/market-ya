@@ -53,16 +53,7 @@
     {
       "id": "260e",
       "userId": "08c7",
-      "items": [
-        {
-          "productId": "b17e",
-          "quantity": 1
-        },
-        {
-          "productId": "1b35",
-          "quantity": 1
-        }
-      ]
+      "items": []
     }
   ],
   "favorites": [

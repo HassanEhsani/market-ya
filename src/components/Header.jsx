@@ -23,12 +23,14 @@ export default function Header({
   return (
     <header className="ym-header">
       <div className="ym-header-top">
+        {/* لوگو */}
         <div className="ym-logo">
           <Link to="/home">
             <img src="/logo.png" alt="Yandex Market Clone" />
           </Link>
         </div>
 
+        {/* مرکز: دسته‌بندی و جستجو */}
         <div className="ym-center">
           <div className="ym-category-dropdown">
             <button onClick={() => setShowDropdown(!showDropdown)}>
@@ -43,7 +45,6 @@ export default function Header({
                 ))}
               </ul>
             )}
-
           </div>
 
           <div className="ym-search-wrapper">
@@ -60,6 +61,10 @@ export default function Header({
           </div>
         </div>
 
+        {/* ✅ Spacer برای فشار دادن منوی کاربر به سمت راست واقعی */}
+        <div style={{ flexGrow: 1 }}></div>
+
+        {/* منوی کاربر: سبد خرید، علاقه‌مندی‌ها، داشبورد، ورود/خروج */}
         <div className="ym-user-menu">
           <Link to="/cart">🛒 {t('cart')}</Link>
           <Link to="/favorites">❤️ {t('favorites')}</Link>
@@ -71,7 +76,6 @@ export default function Header({
           )}
         </div>
       </div>
-
     </header>
   );
 }

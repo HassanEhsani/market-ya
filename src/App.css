@@ -8,7 +8,14 @@
   --text-dark: #333333;
   --text-muted: #555555;
   --shadow-color: rgba(46, 204, 113, 0.08);
+  --dir: ltr;
 }
+
+
+html[dir="rtl"] {
+  --dir: rtl;
+}
+
 
 /* کل صفحه */
 html, body, #root {
