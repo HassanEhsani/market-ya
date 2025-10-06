@@ -15,13 +15,13 @@ struct CartView: View {
                 List {
                     ForEach(cart.products) { product in
                         HStack {
-                            Text(product.title)
+                            Text(product.name)
                             Spacer()
                             Text("$\(product.price, specifier: "%.2f")")
                         }
                     }
                     .onDelete { indexSet in
-                        cart.products.remove(atOffsets: indexSet)
+                        cart.removeFromCart(atOffsets: indexSet)
                     }
                 }
                 .listStyle(.plain)

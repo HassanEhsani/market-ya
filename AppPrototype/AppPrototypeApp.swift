@@ -2,7 +2,7 @@ import SwiftUI
 
 @main
 struct AppPrototypeApp: App {
-    @StateObject var cart = CartManager()
+    @StateObject private var cart = CartManager()
 
     var body: some Scene {
         WindowGroup {

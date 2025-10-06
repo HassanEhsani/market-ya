@@ -1,4 +1,5 @@
 import SwiftUI
+import Foundation
 import Combine
 
 class CartManager: ObservableObject {
@@ -12,12 +13,7 @@ class CartManager: ObservableObject {
         products.append(product)
     }
 
-    func removeFromCart(index: Int) {
-        guard products.indices.contains(index) else { return }
-        products.remove(at: index)
-    }
-
-    func clearCart() {
-        products.removeAll()
+    func removeFromCart(atOffsets offsets: IndexSet) {
+        products.remove(atOffsets: offsets)
     }
 }

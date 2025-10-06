@@ -2,43 +2,26 @@ import SwiftUI
 
 struct ProductCard: View {
     let product: Product
-    @EnvironmentObject var cart: CartManager
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            NavigationLink(destination: ProductDetailView(product: product)) {
-                Image(systemName: product.imageName)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 180, height: 180)
-                    .cornerRadius(10)
-                    .shadow(radius: 5)
-                    .foregroundColor(.blue)
-            }
+        VStack(alignment: .leading, spacing: 8) {
+            // اگر تصویر از API به صورت URL یا Base64 باشه، بعداً اینجا می‌ذاریم
+            Rectangle()
+                .fill(Color.gray.opacity(0.3))
+                .frame(height: 120)
+                .cornerRadius(8)
 
-            Text(product.title)
+            Text(product.name)
                 .font(.headline)
-                .multilineTextAlignment(.center)
+                .lineLimit(1)
 
-            Text("$\(product.price, specifier: "%.2f")")
-                .font(.caption)
-                .foregroundColor(.gray)
-
-            HStack {
-                Button("Buy!") {
-                    print("Buying \(product.title)")
-                }
-                .buttonStyle(.borderedProminent)
-
-                Button("Add to Cart") {
-                    cart.addToCart(product: product)
-                }
-                .buttonStyle(.bordered)
-            }
+            Text("₽ \(Int(product.price))")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
         }
         .padding()
         .background(Color.white)
-        .cornerRadius(20)
-        .shadow(radius: 10)
+        .cornerRadius(12)
+        .shadow(radius: 2)
     }
 }

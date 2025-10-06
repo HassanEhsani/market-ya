@@ -1,26 +1,21 @@
 import SwiftUI
 
 struct HomeView: View {
-    @EnvironmentObject var cart: CartManager
+    @StateObject private var service = ProductService()
 
     var body: some View {
         NavigationView {
             ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))], spacing: 20) {
-                    ForEach(sampleProducts) { product in
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 160))], spacing: 16) {
+                    ForEach(service.products) { product in
                         ProductCard(product: product)
-                            .environmentObject(cart)
                     }
                 }
                 .padding()
             }
-            .navigationTitle("🛍️ Categories")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: CartView()) {
-                        Image(systemName: "cart")
-                    }
-                }
+            .navigationTitle("🛍️ محصولات")
+            .onAppear {
+                service.fetchProducts()
             }
         }
     }

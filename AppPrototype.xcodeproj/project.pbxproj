@@ -32,6 +32,9 @@
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
 		47B306C62E93DEE100C60CD7 /* Exceptions for "AppPrototype" folder in "AppPrototype" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
 			platformFiltersByRelativePath = {
 				Models/CartManager.swift = (ios, );
 				Models/Product.swift = (ios, );
