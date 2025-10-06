@@ -29,9 +29,23 @@
 		47B3065D2E90079300C60CD7 /* AppPrototypeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppPrototypeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		47B306C62E93DEE100C60CD7 /* Exceptions for "AppPrototype" folder in "AppPrototype" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			platformFiltersByRelativePath = {
+				Models/CartManager.swift = (ios, );
+				Models/Product.swift = (ios, );
+			};
+			target = 47B306452E90079000C60CD7 /* AppPrototype */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		47B306482E90079000C60CD7 /* AppPrototype */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				47B306C62E93DEE100C60CD7 /* Exceptions for "AppPrototype" folder in "AppPrototype" target */,
+			);
 			path = AppPrototype;
 			sourceTree = "<group>";
 		};
@@ -43,11 +57,6 @@
 		47B306602E90079300C60CD7 /* AppPrototypeUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = AppPrototypeUITests;
-			sourceTree = "<group>";
-		};
-		47B306872E910B2100C60CD7 /* Models */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Models;
 			sourceTree = "<group>";
 		};
 		47B3068B2E910CF600C60CD7 /* Helpers */ = {
@@ -89,7 +98,6 @@
 				47B306562E90079300C60CD7 /* AppPrototypeTests */,
 				47B306602E90079300C60CD7 /* AppPrototypeUITests */,
 				47B306472E90079000C60CD7 /* Products */,
-				47B306872E910B2100C60CD7 /* Models */,
 				47B3068B2E910CF600C60CD7 /* Helpers */,
 			);
 			sourceTree = "<group>";
@@ -121,7 +129,6 @@
 			);
 			fileSystemSynchronizedGroups = (
 				47B306482E90079000C60CD7 /* AppPrototype */,
-				47B306872E910B2100C60CD7 /* Models */,
 				47B3068B2E910CF600C60CD7 /* Helpers */,
 			);
 			name = AppPrototype;

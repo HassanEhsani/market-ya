@@ -1,17 +1,13 @@
-//
-//  AppPrototypeApp.swift
-//  AppPrototype
-//
-//  Created by Hassan Ehsani on 03/10/2025.
-//
-
 import SwiftUI
 
 @main
 struct AppPrototypeApp: App {
+    @StateObject var cart = CartManager()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            HomeView()
+                .environmentObject(cart)
         }
     }
 }
