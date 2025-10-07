@@ -13,11 +13,14 @@ import ManageCategories from './pages/ManageCategories';
 import Favorites from './pages/Favorites';
 import Home from './pages/Home';
 import Header from './components/Header';
+import SellerDashboard from './pages/SellerDashboard';
+import ProductMarketplace from './pages/ProductMarketplace';
+
+import { fetchProducts } from './services/ProductService';
+
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './App.css';
-import SellerDashboard from './pages/SellerDashboard';
-import ProductMarketplace from './pages/ProductMarketplace';
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -30,12 +33,20 @@ function App() {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
+
+  const location = useLocation();
 
   // بررسی وضعیت ورود
   useEffect(() => {
     const token = localStorage.getItem('token');
     setLoggedIn(!!token);
+  }, []);
+
+  // دریافت محصولات از API
+  useEffect(() => {
+    fetchProducts().then(setProducts);
   }, []);
 
   // تنظیم جهت متن بر اساس زبان
@@ -44,20 +55,11 @@ function App() {
     setTextAlignClass(align);
   }, [i18n.language]);
 
-  // خواندن محصولات و استخراج دسته‌ها
+  // استخراج دسته‌بندی‌ها از محصولات
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const res = await fetch('http://localhost:4000/products');
-        const data = await res.json();
-        const rawCategories = [...new Set(data.map(p => p.category).filter(Boolean))];
-        setCategories(rawCategories);
-      } catch (err) {
-        console.error('خطا در دریافت دسته‌بندی‌ها:', err);
-      }
-    };
-    fetchCategories();
-  }, []);
+    const rawCategories = [...new Set(products.map(p => p.category).filter(Boolean))];
+    setCategories(rawCategories);
+  }, [products]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -73,10 +75,8 @@ function App() {
 
   const handleSearch = () => {
     console.log('🔍 جستجو شد:', searchTerm);
-    // اینجا می‌توانید navigate یا اعمال فیلتر واقعی کنید
+    // اینجا می‌تونی فیلتر یا ناوبری اضافه کنی
   };
-
-  const location = useLocation();
 
   return (
     <div className={`layout ${textAlignClass}`}>
@@ -92,35 +92,29 @@ function App() {
       />
 
       <main className="site-main">
-        {location.pathname === '/home' ? (
+        <div className="main-content">
           <Routes>
+            <Route path="/" element={<Navigate to={loggedIn ? '/products' : '/login'} />} />
             <Route path="/home" element={<Home />} />
+            <Route path="/login" element={<LoginRegister onLogin={() => setLoggedIn(true)} />} />
+            <Route
+              path="/products"
+              element={loggedIn
+                ? <ProductList products={products} onAddToCart={handleAddToCart} />
+                : <Navigate to="/login" />
+              }
+            />
+            <Route path="/dashboard" element={loggedIn ? <Dashboard /> : <Navigate to="/login" />} />
+            <Route path="/cart" element={loggedIn ? <Cart cart={cart} /> : <Navigate to="/login" />} />
+            <Route path="/admin" element={<AdminPanel />} />
+            <Route path="/admin/slider" element={<ManageSlider />} />
+            <Route path="/admin/products" element={<ManageProducts />} />
+            <Route path="/admin/categories" element={<ManageCategories />} />
+            <Route path="/favorites" element={<Favorites />} />
+            <Route path="/seller" element={<SellerDashboard />} />
+            <Route path="/market" element={<ProductMarketplace />} />
           </Routes>
-        ) : (
-          <div className="main-content">
-            <Routes>
-              <Route path="/" element={<Navigate to={loggedIn ? '/products' : '/login'} />} />
-              <Route path="/login" element={<LoginRegister onLogin={() => setLoggedIn(true)} />} />
-              <Route
-                path="/products"
-                element={loggedIn
-                  ? <ProductList onAddToCart={handleAddToCart} />
-                  : <Navigate to="/login" />
-                }
-              />
-              <Route path="/dashboard" element={loggedIn ? <Dashboard /> : <Navigate to="/login" />} />
-              <Route path="/cart" element={loggedIn ? <Cart /> : <Navigate to="/login" />} />
-              <Route path="/admin" element={<AdminPanel />} />
-              <Route path="/admin/slider" element={<ManageSlider />} />
-              <Route path="/admin/products" element={<ManageProducts />} />
-              <Route path="/admin/categories" element={<ManageCategories />} />
-              <Route path="/favorites" element={<Favorites />} />
-              <Route path="/admin/categories" element={<ManageCategories />} />
-              <Route path="/seller" element={<SellerDashboard />} />
-              <Route path="/market" element={<ProductMarketplace />} />
-            </Routes>
-          </div>
-        )}
+        </div>
       </main>
 
       <footer className="site-footer">
